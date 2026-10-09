@@ -1,930 +1,948 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BN Premium shop - ช่องทางการชำระเงิน</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Prompt -->
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Prompt', 'sans-serif'],
-                    },
-                    colors: {
-                        palette: {
-                            crimson: '#730c1e', // #730c1e
-                            darkest: '#210207', // #210207
-                            wine: '#480415',    // #480415
-                            charcoal: '#140f17' // #140f17
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Prompt', sans-serif;
-            background: linear-gradient(135deg, #210207 0%, #140f17 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Sparkling Stars Background */
-        .stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .star {
-            position: absolute;
-            background: #ffffff;
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            opacity: var(--opacity);
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 10px #ffffff, 0 0 20px #ff8da1; }
-        }
-
-        /* Flowing Waves Top & Bottom with Float Animation */
-        .wave-bg {
-            position: fixed;
-            left: 0;
-            width: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.5;
-        }
-        .wave-top {
-            top: 0;
-            height: 100px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23730c1e' fill-opacity='0.35' d='M0,192L48,181.3C96,171,192,150,288,160C384,171,480,213,576,213.3C672,213,768,171,864,149.3C960,128,1056,128,1152,149.3C1248,171,1344,213,1392,234.7L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'%3E%3C/path%3E%3C/svg%3E") no-repeat top center;
-            background-size: cover;
-            animation: wavePulse 8s ease-in-out infinite alternate;
-        }
-        .wave-bottom {
-            bottom: 0;
-            height: 100px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23730c1e' fill-opacity='0.3' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,165.3C960,192,1056,224,1152,213.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom center;
-            background-size: cover;
-            animation: wavePulse 10s ease-in-out infinite alternate-reverse;
-        }
-
-        @keyframes wavePulse {
-            0% { transform: translateY(0) scaleY(1); }
-            100% { transform: translateY(-6px) scaleY(1.05); }
-        }
-
-        /* Floating Animation */
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-6px) rotate(1deg); }
-        }
-        .float-animation {
-            animation: floatSlow 5s ease-in-out infinite;
-        }
-
-        /* Pulsing Status Light */
-        @keyframes pulse-glow {
-            0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.8); }
-            70% { transform: scale(1.2); opacity: 0.8; box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-        }
-        .status-dot {
-            animation: pulse-glow 2s infinite;
-        }
-
-        /* Card Hover 3D Shine Effect */
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-        .card-hover:hover {
-            transform: translateY(-4px) scale(1.005);
-            box-shadow: 0 20px 40px -15px rgba(115, 12, 30, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #210207;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #730c1e;
-            border-radius: 9999px;
-            border: 2px solid #210207;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ffffff;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BN Premium shop - ช่องทางการชำระเงิน</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts: Prompt -->
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Supabase JS Client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+fontFamily: {
+sans: ['Prompt', 'sans-serif'],
+},
+colors: {
+palette: {
+crimson: '#730c1e', // #730c1e
+darkest: '#210207', // #210207
+wine: '#480415',    // #480415
+charcoal: '#140f17' // #140f17
+}
+}
+}
+}
+}
+</script>
+<style>
+body {
+font-family: 'Prompt', sans-serif;
+background: linear-gradient(135deg, #210207 0%, #140f17 100%);
+color: #ffffff;
+min-height: 100vh;
+position: relative;
+overflow-x: hidden;
+}
+/* Sparkling Stars Background */
+.stars-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: 0;
+}
+.star {
+position: absolute;
+background: #ffffff;
+border-radius: 50%;
+animation: twinkle var(--duration) ease-in-out infinite;
+opacity: var(--opacity);
+}
+@keyframes twinkle {
+0%, 100% { opacity: 0.2; transform: scale(0.8); }
+50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 10px #ffffff, 0 0 20px #ff8da1; }
+}
+/* Flowing Waves Top & Bottom with Float Animation */
+.wave-bg {
+position: fixed;
+left: 0;
+width: 100%;
+pointer-events: none;
+z-index: 1;
+opacity: 0.5;
+}
+.wave-top {
+top: 0;
+height: 100px;
+background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23730c1e' fill-opacity='0.35' d='M0,192L48,181.3C96,171,192,150,288,160C384,171,480,213,576,213.3C672,213,768,171,864,149.3C960,128,1056,128,1152,149.3C1248,171,1344,213,1392,234.7L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'%3E%3C/path%3E%3C/svg%3E") no-repeat top center;
+background-size: cover;
+animation: wavePulse 8s ease-in-out infinite alternate;
+}
+.wave-bottom {
+bottom: 0;
+height: 100px;
+background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23730c1e' fill-opacity='0.3' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,165.3C960,192,1056,224,1152,213.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom center;
+background-size: cover;
+animation: wavePulse 10s ease-in-out infinite alternate-reverse;
+}
+@keyframes wavePulse {
+0% { transform: translateY(0) scaleY(1); }
+100% { transform: translateY(-6px) scaleY(1.05); }
+}
+/* Floating Animation */
+@keyframes floatSlow {
+0%, 100% { transform: translateY(0px) rotate(0deg); }
+50% { transform: translateY(-6px) rotate(1deg); }
+}
+.float-animation {
+animation: floatSlow 5s ease-in-out infinite;
+}
+/* Pulsing Status Light */
+@keyframes pulse-glow {
+0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.8); }
+70% { transform: scale(1.2); opacity: 0.8; box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+}
+.status-dot {
+animation: pulse-glow 2s infinite;
+}
+/* Card Hover 3D Shine Effect */
+.card-hover {
+transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.card-hover:hover {
+transform: translateY(-4px) scale(1.005);
+box-shadow: 0 20px 40px -15px rgba(115, 12, 30, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
+border-color: rgba(255, 255, 255, 0.4);
+}
+/* Custom scrollbar */
+::-webkit-scrollbar {
+width: 8px;
+}
+::-webkit-scrollbar-track {
+background: #210207;
+}
+::-webkit-scrollbar-thumb {
+background: #730c1e;
+border-radius: 9999px;
+border: 2px solid #210207;
+}
+::-webkit-scrollbar-thumb:hover {
+background: #ffffff;
+}
+</style>
 </head>
 <body class="flex flex-col justify-between selection:bg-white selection:text-[#730c1e] relative">
-
-    <div class="stars-container" id="starsContainer"></div>
-
-    <div class="wave-bg wave-top"></div>
-    <div class="wave-bg wave-bottom"></div>
-
-    <!-- Header -->
-    <header class="bg-[#140f17]/90 backdrop-blur-md text-white sticky top-0 z-50 border-b border-white/20 shadow-2xl">
-        <div class="max-w-5xl mx-auto px-4 py-3 sm:py-3.5 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div id="navLogoContainer" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-[#730c1e] to-[#480415] flex items-center justify-center overflow-hidden border-2 border-white/40 shadow-lg float-animation shrink-0">
-                    <i class="fa-solid fa-crown text-white text-base sm:text-lg"></i>
-                </div>
-                <div class="min-w-0">
-                    <h1 id="navSiteTitle" class="font-black text-sm sm:text-base md:text-lg tracking-tight bg-gradient-to-r from-white via-rose-100 to-rose-300 bg-clip-text text-transparent truncate drop-shadow">BN Premium shop</h1>
-                    <div class="flex items-center space-x-1.5">
-                        <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot inline-block shrink-0"></span>
-                        <p class="text-[10px] sm:text-[11px] text-emerald-300 font-medium tracking-wide truncate">เปิดให้บริการตลอด 24 ชม.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="shrink-0">
-                <button onclick="openAdminModal()" class="bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-3.5 sm:px-4.5 py-2 rounded-full text-xs font-bold transition-all duration-300 flex items-center space-x-1.5 sm:space-x-2 shadow-lg shadow-[#730c1e]/50 border border-white/30 active:scale-95">
-                    <i class="fa-solid fa-lock text-[10px]"></i>
-                    <span class="hidden sm:inline">ระบบแอดมิน</span>
-                    <span class="sm:hidden">แอดมิน</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-grow max-w-4xl w-full mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8 relative z-10">
-        
-        <!-- Hero / Header Banner -->
-        <div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-8 md:p-10 shadow-2xl border-2 border-white/25 text-center relative overflow-hidden card-hover">
-            <div class="absolute -right-20 -top-20 w-48 sm:w-64 h-48 sm:h-64 bg-[#730c1e]/40 rounded-full pointer-events-none blur-3xl"></div>
-            <div class="absolute -left-20 -bottom-20 w-48 sm:w-64 h-48 sm:h-64 bg-white/10 rounded-full pointer-events-none blur-3xl"></div>
-            
-            <div class="relative z-10 flex flex-col items-center">
-                <div id="heroLogoContainer" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#730c1e] to-[#480415] text-white flex items-center justify-center text-3xl sm:text-4xl shadow-2xl shadow-[#730c1e]/60 mb-3 sm:mb-4 overflow-hidden border-4 border-white/30 float-animation">
-                    <i class="fa-solid fa-crown"></i>
-                </div>
-                
-                <div class="inline-flex items-center space-x-2 bg-white/15 border border-white/30 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-white text-xs font-bold mb-3 shadow-md backdrop-blur-md">
-                    <i class="fa-solid fa-sparkles text-amber-300 animate-spin" style="animation-duration: 4s;"></i>
-                    <span class="tracking-wide">จำหน่ายแอพพรีเมียม</span>
-                </div>
-
-                <h2 class="text-2xl sm:text-4xl md:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-md bg-gradient-to-r from-white via-rose-100 to-rose-300 bg-clip-text text-transparent">BN Premium shop</h2>
-                <p class="text-rose-100/90 text-xs sm:text-sm md:text-base max-w-md mx-auto mb-5 sm:mb-6 font-light px-2">
-                    ช่องทางชำระเงินสะดวกรวดเร็ว ปลอดภัย โอนแล้วแจ้งสลิปรับแอพทันที!
-                </p>
-
-                <!-- Social Contact Buttons -->
-                <div class="flex flex-wrap justify-center gap-2.5 sm:gap-3 w-full">
-                    <a id="facebookLink" href="https://facebook.com" target="_blank" class="bg-[#1877F2] hover:bg-white hover:text-[#1877F2] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xl shadow-blue-600/40 transition-all transform hover:-translate-y-1 border border-white/30 flex-1 sm:flex-none min-w-[140px]">
-                        <i class="fa-brands fa-facebook text-base"></i>
-                        <span>Facebook</span>
-                    </a>
-                    <a id="lineLink" href="https://line.me" target="_blank" class="bg-[#06C755] hover:bg-white hover:text-[#06C755] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xl shadow-emerald-600/40 transition-all transform hover:-translate-y-1 border border-white/30 flex-1 sm:flex-none min-w-[140px]">
-                        <i class="fa-brands fa-line text-base"></i>
-                        <span>LINE OA</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- QR Code Section -->
-        <div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 md:p-8 shadow-2xl border-2 border-white/20 relative overflow-hidden card-hover">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 sm:mb-6">
-                <div class="flex items-center space-x-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#730c1e] text-white flex items-center justify-center shadow-md border border-white/30 shrink-0">
-                        <i class="fa-solid fa-qrcode text-sm"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm sm:text-base md:text-lg text-white">QR Code สำหรับสแกนจ่าย</h3>
-                        <p class="text-[11px] sm:text-xs text-rose-200/90">สแกนหรือบันทึกรูป QR Code เพื่อโอนเงินความรวดเร็ว</p>
-                    </div>
-                </div>
-                <div class="inline-flex items-center space-x-2 bg-white/15 text-white px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full font-semibold border border-white/30 shadow-sm text-[11px] sm:text-xs self-start sm:self-auto">
-                    <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot shrink-0"></span>
-                    <span>พร้อมเพย์ / พร้อมโอน</span>
-                </div>
-            </div>
-
-            <!-- QR Code Display Box -->
-            <div id="qrCodeContainer" class="flex flex-col md:flex-row items-center justify-center gap-5 sm:gap-6 bg-[#140f17]/90 p-5 sm:p-6 rounded-[1.8rem] sm:rounded-[2rem] border border-white/20 shadow-inner">
-                <div class="w-44 h-44 sm:w-52 sm:h-52 md:w-56 md:h-56 bg-white rounded-[1.5rem] sm:rounded-[1.8rem] p-3 shadow-2xl flex items-center justify-center overflow-hidden border-4 border-white/30 shrink-0 transform hover:scale-105 transition duration-300">
-                    <div id="qrImageWrapper" class="w-full h-full flex items-center justify-center text-slate-400">
-                        <!-- Rendered dynamically -->
-                    </div>
-                </div>
-                <div class="flex flex-col items-center md:items-start text-center md:text-left space-y-3 w-full">
-                    <div id="qrDetails" class="space-y-1">
-                        <h4 id="qrTitle" class="font-extrabold text-white text-base sm:text-lg">พร้อมเพย์ BN Premium</h4>
-                        <p id="qrSubTitle" class="text-xs sm:text-sm text-rose-200 font-mono tracking-wider font-semibold">081-234-5678</p>
-                        <p class="text-[11px] text-rose-200/80 max-w-xs mt-1">บันทึกรูปภาพ QR Code นี้ลงในเครื่องมือถือของคุณเพื่อเปิดแอปธนาคารสแกนจ่ายได้ทันที</p>
-                    </div>
-                    <div class="pt-1 w-full sm:w-auto">
-                        <button onclick="downloadQRCode()" class="w-full sm:w-auto bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs font-bold transition-all flex items-center justify-center space-x-2 shadow-xl shadow-[#730c1e]/50 border border-white/30 active:scale-95">
-                            <i class="fa-solid fa-download"></i>
-                            <span>ดาวน์โหลด/บันทึก QR Code</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <div class="flex items-center justify-between mb-4 px-1 sm:px-2">
-                <h3 class="font-bold text-sm sm:text-base md:text-lg text-white flex items-center space-x-2">
-                    <span class="w-3 h-3 sm:w-3.5 sm:h-3.5 bg-[#730c1e] rounded-full inline-block ring-4 ring-white/30 shadow-md status-dot shrink-0"></span>
-                    <span>เลือกช่องทางชำระเงิน (บัญชีธนาคาร)</span>
-                </h3>
-                <span id="accountCountBadge" class="text-xs bg-white/15 text-white px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full font-bold border border-white/30 shadow-sm shrink-0">0 บัญชี</span>
-            </div>
-
-            <!-- Bank Accounts Grid -->
-            <div id="bankAccountsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Dynamic Bank Cards will be rendered here -->
-            </div>
-
-            <!-- Empty State -->
-            <div id="emptyState" class="hidden text-center py-10 sm:py-12 bg-[#210207]/90 rounded-[2rem] sm:rounded-[2.5rem] border-2 border-dashed border-white/30 mt-4 shadow-xl">
-                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#480415] text-rose-300 rounded-full flex items-center justify-center text-xl sm:text-2xl mx-auto mb-3 shadow-inner border border-white/30">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-                <p class="text-white font-bold text-sm sm:text-base">ยังไม่มีข้อมูลบัญชีธนาคาร</p>
-                <p class="text-rose-200/80 text-xs mt-1">กรุณาเข้าสู่ระบบแอดมินเพื่อเพิ่มบัญชีธนาคาร</p>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-[#140f17]/95 border-t border-white/20 py-5 sm:py-6 text-center text-xs text-rose-200/80 mt-10 sm:mt-12 relative z-10 backdrop-blur-md">
-        <div class="max-w-5xl mx-auto px-4">
-            <p class="font-bold text-white">&copy; <span id="currentYear"></span> BN Premium shop. สงวนลิขสิทธิ์ทุกประการ.</p>
-            <p class="mt-1 text-rose-200/70 text-[11px] sm:text-xs">จำหน่ายแอพพรีเมียมราคาประหยัด ดูแลตลอดอายุการใช้งาน</p>
-        </div>
-    </footer>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-[#140f17] text-white px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 border-2 border-white/45 max-w-[90vw]">
-        <div id="toastIcon" class="w-6 h-6 rounded-full bg-[#730c1e] text-white flex items-center justify-center text-xs shadow border border-white/30 shrink-0">
-            <i class="fa-solid fa-check"></i>
-        </div>
-        <span id="toastMessage" class="text-xs sm:text-sm font-bold truncate">คัดลอกสำเร็จ!</span>
-    </div>
-
-    <!-- Admin Login Modal -->
-    <div id="adminLoginModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-[#210207] rounded-[2rem] sm:rounded-[2.5rem] max-w-sm w-full p-5 sm:p-6 shadow-2xl transform transition-all border-2 border-white/30 relative">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#730c1e] text-white flex items-center justify-center border border-white/30 shadow shrink-0">
-                        <i class="fa-solid fa-lock text-xs sm:text-sm"></i>
-                    </div>
-                    <h3 class="font-bold text-sm sm:text-base text-white">เข้าสู่ระบบแอดมิน</h3>
-                </div>
-                <button onclick="closeAdminLoginModal()" class="w-8 h-8 rounded-full bg-white/10 text-rose-200 hover:bg-white hover:text-[#210207] flex items-center justify-center transition shrink-0">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            
-            <div class="mb-4 bg-white/10 p-3 rounded-2xl border border-white/20 text-[11px] text-rose-100 space-y-0.5 shadow-inner">
-                <p class="font-bold text-white flex items-center space-x-1.5">
-                    <i class="fa-solid fa-circle-info text-amber-300"></i>
-                    <span>รหัสเข้าสู่ระบบ (Default):</span>
-                </p>
-                <p class="font-mono pl-4">Username: <strong class="text-white">admin</strong></p>
-                <p class="font-mono pl-4">Password: <strong class="text-white">1234</strong></p>
-            </div>
-
-            <form id="loginForm" onsubmit="handleAdminLogin(event)" class="space-y-3.5 sm:space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-rose-200 mb-1">ชื่อผู้ใช้งาน (Username)</label>
-                    <input type="text" id="adminUser" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white focus:outline-none focus:border-white focus:ring-2 focus:ring-white/40 text-xs transition font-mono" placeholder="admin">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-rose-200 mb-1">รหัสผ่าน (Password)</label>
-                    <input type="password" id="adminPass" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white focus:outline-none focus:border-white focus:ring-2 focus:ring-white/40 text-xs transition font-mono" placeholder="••••••••">
-                </div>
-                <div id="loginError" class="hidden text-xs text-rose-100 font-medium bg-rose-950/80 p-2.5 rounded-xl border border-rose-500/60 text-center shadow">
-                    ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง (ใช้ admin / 1234)
-                </div>
-                <div class="pt-1">
-                    <button type="submit" class="w-full bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-3 rounded-full font-bold text-xs transition-all shadow-xl shadow-[#730c1e]/50 border border-white/35 active:scale-95">
-                        เข้าสู่ระบบ
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Admin Dashboard Modal -->
-    <div id="adminDashboardModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 md:p-6">
-        <div class="bg-[#210207] rounded-[2rem] sm:rounded-[2.5rem] max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border-2 border-white/30">
-            <!-- Modal Header -->
-            <div class="bg-[#140f17] text-white px-4 sm:px-6 py-3.5 sm:py-4 flex justify-between items-center border-b border-white/20 shadow">
-                <div class="flex items-center space-x-3 min-w-0">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#730c1e] text-white flex items-center justify-center border border-white/30 shrink-0">
-                        <i class="fa-solid fa-sliders text-xs sm:text-sm"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <h3 class="font-bold text-xs sm:text-sm md:text-base truncate">ระบบจัดการหลังบ้าน (Admin Dashboard)</h3>
-                        <p class="text-[10px] sm:text-[11px] text-rose-200/80 truncate">จัดการโลโก้ QR Code บัญชีธนาคาร และช่องทางติดต่อ</p>
-                    </div>
-                </div>
-                <button onclick="closeAdminDashboard()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white hover:text-[#210207] text-white flex items-center justify-center transition shrink-0 ml-2">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Dashboard Content Tabs / Body -->
-            <div class="flex-grow overflow-y-auto p-3 sm:p-5 md:p-6 space-y-5 sm:space-y-6 bg-[#1f0307]">
-                
-                <!-- Section 1: General Settings & Logo & QR Code -->
-                <div class="bg-[#210207] p-4 sm:p-5 rounded-[1.8rem] sm:rounded-[2rem] border-2 border-white/20 shadow-md space-y-4 sm:space-y-5">
-                    <h4 class="font-bold text-white text-xs sm:text-sm flex items-center space-x-2">
-                        <i class="fa-solid fa-image text-rose-300"></i>
-                        <span>ตั้งค่าโลโก้ร้าน & QR Code ชำระเงิน</span>
-                    </h4>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                        <!-- Logo Upload Box -->
-                        <div class="p-3.5 sm:p-4 bg-[#140f17] rounded-[1.5rem] sm:rounded-[1.8rem] border border-white/20 flex flex-col items-center justify-center shadow-inner">
-                            <div id="previewLogoContainer" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#730c1e] to-[#480415] text-white flex items-center justify-center text-xl sm:text-2xl mb-2 overflow-hidden shadow-md border-2 border-white/30">
-                                <i class="fa-solid fa-crown"></i>
-                            </div>
-                            <span class="text-[11px] text-rose-200 font-medium mb-2">โลโก้ปัจจุบัน</span>
-                            <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
-                        </div>
-
-                        <!-- QR Code Upload Box -->
-                        <div class="p-3.5 sm:p-4 bg-[#140f17] rounded-[1.5rem] sm:rounded-[1.8rem] border border-white/20 flex flex-col items-center justify-center shadow-inner">
-                            <div id="previewQRContainer" class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white text-slate-700 flex items-center justify-center text-xl sm:text-2xl mb-2 overflow-hidden shadow-md border-2 border-white/30">
-                                <i class="fa-solid fa-qrcode"></i>
-                            </div>
-                            <span class="text-[11px] text-rose-200 font-medium mb-2">รูป QR Code ปัจจุบัน</span>
-                            <input type="file" id="qrFileInput" accept="image/*" onchange="handleQRUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
-                        </div>
-                    </div>
-
-                    <!-- QR Title & Subtitle Settings -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                        <div>
-                            <label class="block text-xs font-semibold text-rose-200 mb-1">หัวข้อ QR Code</label>
-                            <input type="text" id="settingQRTitle" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="พร้อมเพย์ BN Premium">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-rose-200 mb-1">รายละเอียดใต้ QR Code (เช่น เลขพร้อมเพย์)</label>
-                            <input type="text" id="settingQRSub" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white font-mono" placeholder="081-234-5678">
-                        </div>
-                    </div>
-
-                    <!-- Social Contacts -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                        <div>
-                            <label class="block text-xs font-semibold text-rose-200 mb-1">ลิงก์ Facebook เพจ/กลุ่ม</label>
-                            <input type="url" id="settingFacebook" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="https://facebook.com/yourpage">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-rose-200 mb-1">ลิงก์ LINE Official / โปรไฟล์</label>
-                            <input type="url" id="settingLine" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="https://line.me/ti/p/@yourline">
-                        </div>
-                    </div>
-
-                    <div class="pt-1">
-                        <button onclick="saveGeneralSettings()" class="w-full sm:w-auto bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-6 py-2.5 rounded-full text-xs font-bold transition-all shadow-lg border border-white/30 active:scale-95">
-                            บันทึกการตั้งค่าทั่วไป & QR Code
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Section 2: Bank Accounts Management -->
-                <div class="bg-[#210207] p-4 sm:p-5 rounded-[1.8rem] sm:rounded-[2rem] border-2 border-white/20 shadow-md">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-4">
-                        <h4 class="font-bold text-white text-xs sm:text-sm flex items-center space-x-2">
-                            <i class="fa-solid fa-building-columns text-rose-300"></i>
-                            <span>จัดการบัญชีธนาคารร้าน</span>
-                        </h4>
-                        <button onclick="openAddAccountModal()" class="bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center justify-center space-x-1.5 shadow-md border border-white/30 active:scale-95 self-start sm:self-auto">
-                            <i class="fa-solid fa-plus text-[10px]"></i>
-                            <span>เพิ่มบัญชีใหม่</span>
-                        </button>
-                    </div>
-
-                    <!-- Admin Bank List -->
-                    <div id="adminBankList" class="space-y-2.5">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="bg-[#140f17] border-t border-white/20 px-4 sm:px-6 py-3 flex justify-between items-center shadow">
-                <span class="text-[10px] sm:text-[11px] text-rose-200/70">การเปลี่ยนแปลงจะถูกบันทึกในระบบทันที</span>
-                <button onclick="closeAdminDashboard()" class="bg-white/15 hover:bg-white hover:text-[#210207] text-white px-4 sm:px-5 py-2 rounded-full text-xs font-bold transition border border-white/30">
-                    ปิดหน้าต่าง
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Account Add/Edit Modal -->
-    <div id="accountModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-[#210207] rounded-[2rem] sm:rounded-[2.5rem] max-w-sm w-full p-5 sm:p-6 shadow-2xl border-2 border-white/30">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="accountModalTitle" class="font-bold text-sm sm:text-base text-white">เพิ่มบัญชีธนาคารใหม่</h3>
-                <button onclick="closeAccountModal()" class="w-8 h-8 rounded-full bg-white/10 text-rose-200 hover:bg-white hover:text-[#210207] flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <form id="accountForm" onsubmit="saveAccountData(event)" class="space-y-3.5">
-                <input type="hidden" id="editAccountId">
-                <div>
-                    <label class="block text-xs font-semibold text-rose-200 mb-1">ชื่อธนาคาร</label>
-                    <input type="text" id="bankName" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="เช่น กสิกรไทย, พร้อมเพย์">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-rose-200 mb-1">ชื่อบัญชี</label>
-                    <input type="text" id="accountName" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="เช่น น.ส. บีเอ็น พรีเมียม">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-rose-200 mb-1">เลขที่บัญชี / เบอร์พร้อมเพย์</label>
-                    <input type="text" id="accountNumber" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white font-mono" placeholder="เช่น 123-4-56789-0">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-rose-200 mb-1">ไอคอนธนาคาร (เลือกรูปภาพ)</label>
-                    <div class="flex items-center space-x-3">
-                        <div id="previewBankIconContainer" class="w-10 h-10 rounded-full bg-[#140f17] text-rose-200 flex items-center justify-center text-sm overflow-hidden border border-white/30 shrink-0 shadow">
-                            <i class="fa-solid fa-building-columns"></i>
-                        </div>
-                        <input type="file" id="bankIconInput" accept="image/*" onchange="handleBankIconUpload(event)" class="w-full text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
-                    </div>
-                </div>
-                <div class="pt-2 flex space-x-2">
-                    <button type="button" onclick="closeAccountModal()" class="w-1/2 bg-white/10 hover:bg-white hover:text-[#210207] text-rose-100 py-2.5 rounded-full font-bold text-xs transition border border-white/25">
-                        ยกเลิก
-                    </button>
-                    <button type="submit" class="w-1/2 bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-2.5 rounded-full font-bold text-xs transition-all shadow-lg border border-white/35 active:scale-95">
-                        บันทึกบัญชี
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Default initial data for BN Premium shop with QR Code
-        const defaultData = {
-            logo: "", 
-            qrCode: "",
-            qrTitle: "พร้อมเพย์ BN Premium",
-            qrSub: "081-234-5678",
-            facebook: "https://facebook.com",
-            line: "https://line.me",
-            accounts: [
-                {
-                    id: "acc_1",
-                    bankName: "กสิกรไทย (KBANK)",
-                    accountName: "บีเอ็น พรีเมียม ช็อป",
-                    accountNumber: "123-4-56789-0",
-                    icon: ""
-                },
-                {
-                    id: "acc_2",
-                    bankName: "ไทยพาณิชย์ (SCB)",
-                    accountName: "บีเอ็น พรีเมียม ช็อป",
-                    accountNumber: "987-6-54321-0",
-                    icon: ""
-                },
-                {
-                    id: "acc_3",
-                    bankName: "พร้อมเพย์ (PromptPay)",
-                    accountName: "081-234-5678 (พร้อมเพย์)",
-                    accountNumber: "081-234-5678",
-                    icon: ""
-                }
-            ]
-        };
-
-        // Load data from localStorage or fallback to default
-        let appData = JSON.parse(localStorage.getItem('bnPremium_paymentData')) || defaultData;
-
-        // Temporary storage for uploaded images
-        let tempLogoBase64 = "";
-        let tempQRBase64 = "";
-        let tempBankIconBase64 = "";
-
-        window.onload = function() {
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-            createStarfield();
-            renderApp();
-        };
-
-        // Create twinkling stars for background
-        function createStarfield() {
-            const container = document.getElementById('starsContainer');
-            const count = window.innerWidth < 768 ? 30 : 60;
-            container.innerHTML = "";
-            for (let i = 0; i < count; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 3 + 1;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-                star.style.setProperty('--opacity', Math.random() * 0.7 + 0.3);
-                star.style.animationDelay = (Math.random() * 3) + 's';
-                container.appendChild(star);
-            }
-        }
-
-        function saveData() {
-            localStorage.setItem('bnPremium_paymentData', JSON.stringify(appData));
-        }
-
-        function renderApp() {
-            // Render Logos
-            const navLogoContainer = document.getElementById('navLogoContainer');
-            const heroLogoContainer = document.getElementById('heroLogoContainer');
-            const previewLogoContainer = document.getElementById('previewLogoContainer');
-
-            if (appData.logo) {
-                navLogoContainer.innerHTML = '<img src="' + appData.logo + '" alt="Logo" class="w-full h-full object-cover">';
-                heroLogoContainer.innerHTML = '<img src="' + appData.logo + '" alt="Logo" class="w-full h-full object-cover">';
-                previewLogoContainer.innerHTML = '<img src="' + appData.logo + '" alt="Logo" class="w-full h-full object-cover">';
-            } else {
-                navLogoContainer.innerHTML = '<i class="fa-solid fa-crown text-white text-base sm:text-lg"></i>';
-                heroLogoContainer.innerHTML = '<i class="fa-solid fa-crown"></i>';
-                previewLogoContainer.innerHTML = '<i class="fa-solid fa-crown text-white text-lg"></i>';
-            }
-
-            // Render QR Code Section
-            const qrImageWrapper = document.getElementById('qrImageWrapper');
-            const previewQRContainer = document.getElementById('previewQRContainer');
-            const qrTitle = document.getElementById('qrTitle');
-            const qrSubTitle = document.getElementById('qrSubTitle');
-
-            qrTitle.textContent = appData.qrTitle || "พร้อมเพย์ BN Premium";
-            qrSubTitle.textContent = appData.qrSub || "081-234-5678";
-            document.getElementById('settingQRTitle').value = appData.qrTitle || "";
-            document.getElementById('settingQRSub').value = appData.qrSub || "";
-
-            if (appData.qrCode) {
-                qrImageWrapper.innerHTML = '<img id="actualQrImg" src="' + appData.qrCode + '" alt="QR Code" class="w-full h-full object-contain rounded-2xl">';
-                previewQRContainer.innerHTML = '<img src="' + appData.qrCode + '" alt="QR" class="w-full h-full object-cover">';
-            } else {
-                qrImageWrapper.innerHTML = '<div class="flex flex-col items-center justify-center text-center p-2 text-slate-500"><i class="fa-solid fa-qrcode text-3xl sm:text-4xl mb-1 text-[#730c1e]"></i><span class="text-[10px]">ยังไม่ได้อัปโหลด QR Code</span></div>';
-                previewQRContainer.innerHTML = '<i class="fa-solid fa-qrcode text-slate-700"></i>';
-            }
-
-            // Render Social Links
-            document.getElementById('facebookLink').href = appData.facebook || "https://facebook.com";
-            document.getElementById('lineLink').href = appData.line || "https://line.me";
-            document.getElementById('settingFacebook').value = appData.facebook || "";
-            document.getElementById('settingLine').value = appData.line || "";
-
-            // Render Bank Accounts Grid
-            const grid = document.getElementById('bankAccountsGrid');
-            const emptyState = document.getElementById('emptyState');
-            const countBadge = document.getElementById('accountCountBadge');
-
-            countBadge.textContent = appData.accounts.length + " บัญชี";
-
-            if (appData.accounts.length === 0) {
-                grid.innerHTML = "";
-                emptyState.classList.remove('hidden');
-            } else {
-                emptyState.classList.add('hidden');
-                grid.innerHTML = appData.accounts.map(function(acc) {
-                    var iconHtml = acc.icon ? '<img src="' + acc.icon + '" alt="' + escapeHtml(acc.bankName) + '" class="w-full h-full object-cover">' : '<i class="fa-solid fa-building-columns"></i>';
-                    return '<div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 shadow-xl card-hover border-2 border-white/20 flex flex-col justify-between">' +
-                        '<div>' +
-                            '<div class="flex items-center space-x-3 mb-4">' +
-                                '<div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#140f17] text-white flex items-center justify-center text-base sm:text-lg overflow-hidden border-2 border-white/30 shrink-0 shadow-md">' + iconHtml + '</div>' +
-                                '<div class="min-w-0 flex-1">' +
-                                    '<h4 class="font-extrabold text-white text-sm sm:text-base truncate">' + escapeHtml(acc.bankName) + '</h4>' +
-                                    '<div class="flex items-center space-x-1.5">' +
-                                        '<span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot inline-block shrink-0"></span>' +
-                                        '<p class="text-[10px] sm:text-[11px] text-emerald-300 font-semibold tracking-wide truncate">บัญชีพร้อมใช้งาน</p>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="bg-[#140f17]/90 rounded-[1.5rem] sm:rounded-[1.8rem] p-3.5 sm:p-4 space-y-2 border border-white/20 mb-4 sm:mb-5 shadow-inner">' +
-                                '<div class="flex justify-between items-center text-xs">' +
-                                    '<span class="text-rose-200/90 font-medium shrink-0">ชื่อบัญชี:</span>' +
-                                    '<span class="font-bold text-white text-right truncate pl-2">' + escapeHtml(acc.accountName) + '</span>' +
-                                '</div>' +
-                                '<div class="flex justify-between items-center text-xs pt-2 border-t border-white/15">' +
-                                    '<span class="text-rose-200/90 font-medium shrink-0">เลขที่บัญชี:</span>' +
-                                    '<span class="font-extrabold text-white text-sm sm:text-base tracking-wider font-mono truncate pl-2">' + escapeHtml(acc.accountNumber) + '</span>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<button onclick="copyToClipboard(\'' + acc.accountNumber + '\')" class="w-full bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-2.5 sm:py-3 rounded-full font-bold text-xs transition-all flex items-center justify-center space-x-2 shadow-xl shadow-[#730c1e]/40 border border-white/30 active:scale-95">' +
-                            '<i class="fa-regular fa-copy"></i>' +
-                            '<span>คัดลอกเลขที่บัญชี</span>' +
-                        '</button>' +
-                    '</div>';
-                }).join('');
-            }
-
-            // Render Admin Bank List
-            var adminBankList = document.getElementById('adminBankList');
-            if (appData.accounts.length === 0) {
-                adminBankList.innerHTML = '<p class="text-xs text-rose-200 text-center py-4">ไม่มีรายการบัญชีธนาคาร</p>';
-            } else {
-                adminBankList.innerHTML = appData.accounts.map(function(acc) {
-                    var adminIconHtml = acc.icon ? '<img src="' + acc.icon + '" alt="" class="w-full h-full object-cover">' : '<i class="fa-solid fa-building-columns text-xs"></i>';
-                    return '<div class="flex items-center justify-between p-3 sm:p-3.5 bg-[#140f17] rounded-2xl border border-white/20 shadow-sm gap-2">' +
-                        '<div class="flex items-center space-x-2.5 min-w-0 flex-1">' +
-                            '<div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#210207] flex items-center justify-center overflow-hidden border border-white/30 shrink-0 text-white shadow">' + adminIconHtml + '</div>' +
-                            '<div class="min-w-0 flex-1">' +
-                                '<p class="font-bold text-xs text-white truncate">' + escapeHtml(acc.bankName) + '</p>' +
-                                '<p class="text-[10px] sm:text-[11px] text-rose-200/80 font-mono truncate">' + escapeHtml(acc.accountNumber) + ' (' + escapeHtml(acc.accountName) + ')</p>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="flex items-center space-x-1 shrink-0">' +
-                            '<button onclick="openEditAccountModal(\'' + acc.id + '\')" class="p-2 text-rose-200 hover:text-[#210207] hover:bg-white rounded-full text-xs transition shadow" title="แก้ไข">' +
-                                '<i class="fa-solid fa-pen"></i>' +
-                            '</button>' +
-                            '<button onclick="deleteAccount(\'' + acc.id + '\')" class="p-2 text-rose-300 hover:text-white hover:bg-[#730c1e] rounded-full text-xs transition shadow" title="ลบ">' +
-                                '<i class="fa-solid fa-trash"></i>' +
-                            '</button>' +
-                        '</div>' +
-                    '</div>';
-                }).join('');
-            }
-        }
-
-        // Image compression helper
-        function compressImage(file, maxWidth, maxHeight, callback) {
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function(event) {
-                var img = new Image();
-                img.src = event.target.result;
-                img.onload = function() {
-                    var canvas = document.createElement('canvas');
-                    var width = img.width;
-                    var height = img.height;
-
-                    if (width > height) {
-                        if (width > maxWidth) {
-                            height *= maxWidth / width;
-                            width = maxWidth;
-                        }
-                    } else {
-                        if (height > maxHeight) {
-                            width *= maxHeight / height;
-                            height = maxHeight;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    var ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-                    callback(dataUrl);
-                };
-            };
-        }
-
-        function handleLogoUpload(event) {
-            var file = event.target.files[0];
-            if (file) {
-                compressImage(file, 200, 200, function(compressedBase64) {
-                    tempLogoBase64 = compressedBase64;
-                    document.getElementById('previewLogoContainer').innerHTML = '<img src="' + tempLogoBase64 + '" class="w-full h-full object-cover">';
-                });
-            }
-        }
-
-        function handleQRUpload(event) {
-            var file = event.target.files[0];
-            if (file) {
-                compressImage(file, 500, 500, function(compressedBase64) {
-                    tempQRBase64 = compressedBase64;
-                    document.getElementById('previewQRContainer').innerHTML = '<img src="' + tempQRBase64 + '" class="w-full h-full object-cover">';
-                });
-            }
-        }
-
-        function handleBankIconUpload(event) {
-            var file = event.target.files[0];
-            if (file) {
-                compressImage(file, 150, 150, function(compressedBase64) {
-                    tempBankIconBase64 = compressedBase64;
-                    document.getElementById('previewBankIconContainer').innerHTML = '<img src="' + tempBankIconBase64 + '" class="w-full h-full object-cover">';
-                });
-            }
-        }
-
-        function saveGeneralSettings() {
-            if (tempLogoBase64) {
-                appData.logo = tempLogoBase64;
-            }
-            if (tempQRBase64) {
-                appData.qrCode = tempQRBase64;
-            }
-            appData.qrTitle = document.getElementById('settingQRTitle').value.trim() || "พร้อมเพย์ BN Premium";
-            appData.qrSub = document.getElementById('settingQRSub').value.trim() || "";
-            appData.facebook = document.getElementById('settingFacebook').value.trim();
-            appData.line = document.getElementById('settingLine').value.trim();
-            
-            saveData();
-            renderApp();
-            showToast("บันทึกการตั้งค่าสำเร็จ!");
-        }
-
-        function downloadQRCode() {
-            if (!appData.qrCode) {
-                showToast("ยังไม่มีรูป QR Code สำหรับดาวน์โหลด");
-                return;
-            }
-            var link = document.createElement('a');
-            link.href = appData.qrCode;
-            link.download = 'BN_Premium_QRCode.jpg';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("ดาวน์โหลด QR Code เรียบร้อยแล้ว!");
-        }
-
-        function copyToClipboard(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(function() {
-                    showToast("คัดลอกเลขบัญชี " + text + " แล้ว");
-                }).catch(function() {
-                    fallbackCopy(text);
-                });
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
-            var textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                showToast("คัดลอกเลขบัญชี " + text + " แล้ว");
-            } catch (err) {
-                showToast("ไม่สามารถคัดลอกได้");
-            }
-            document.body.removeChild(textArea);
-        }
-
-        function showToast(message) {
-            var toast = document.getElementById('toast');
-            var toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(function() {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        function openAdminModal() {
-            document.getElementById('adminUser').value = '';
-            document.getElementById('adminPass').value = '';
-            document.getElementById('loginError').classList.add('hidden');
-            document.getElementById('adminLoginModal').classList.remove('hidden');
-        }
-
-        function closeAdminLoginModal() {
-            document.getElementById('adminLoginModal').classList.add('hidden');
-        }
-
-        function handleAdminLogin(event) {
-            event.preventDefault();
-            var user = document.getElementById('adminUser').value.trim();
-            var pass = document.getElementById('adminPass').value.trim();
-
-            if (user === 'admin' && pass === '1234') {
-                closeAdminLoginModal();
-                document.getElementById('adminDashboardModal').classList.remove('hidden');
-                tempLogoBase64 = "";
-                tempQRBase64 = "";
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
-        }
-
-        function closeAdminDashboard() {
-            document.getElementById('adminDashboardModal').classList.add('hidden');
-            renderApp();
-        }
-
-        function openAddAccountModal() {
-            document.getElementById('accountModalTitle').textContent = "เพิ่มบัญชีธนาคารใหม่";
-            document.getElementById('editAccountId').value = "";
-            document.getElementById('bankName').value = "";
-            document.getElementById('accountName').value = "";
-            document.getElementById('accountNumber').value = "";
-            document.getElementById('bankIconInput').value = "";
-            tempBankIconBase64 = "";
-            document.getElementById('previewBankIconContainer').innerHTML = '<i class="fa-solid fa-building-columns"></i>';
-            document.getElementById('accountModal').classList.remove('hidden');
-        }
-
-        function openEditAccountModal(id) {
-            var acc = appData.accounts.find(function(a) { return a.id === id; });
-            if (!acc) return;
-
-            document.getElementById('accountModalTitle').textContent = "แก้ไขบัญชีธนาคาร";
-            document.getElementById('editAccountId').value = acc.id;
-            document.getElementById('bankName').value = acc.bankName;
-            document.getElementById('accountName').value = acc.accountName;
-            document.getElementById('accountNumber').value = acc.accountNumber;
-            document.getElementById('bankIconInput').value = "";
-            tempBankIconBase64 = acc.icon || "";
-
-            if (acc.icon) {
-                document.getElementById('previewBankIconContainer').innerHTML = '<img src="' + acc.icon + '" class="w-full h-full object-cover">';
-            } else {
-                document.getElementById('previewBankIconContainer').innerHTML = '<i class="fa-solid fa-building-columns"></i>';
-            }
-
-            document.getElementById('accountModal').classList.remove('hidden');
-        }
-
-        function closeAccountModal() {
-            document.getElementById('accountModal').classList.add('hidden');
-        }
-
-        function saveAccountData(event) {
-            event.preventDefault();
-            var id = document.getElementById('editAccountId').value;
-            var bankName = document.getElementById('bankName').value.trim();
-            var accountName = document.getElementById('accountName').value.trim();
-            var accountNumber = document.getElementById('accountNumber').value.trim();
-
-            if (id) {
-                var acc = appData.accounts.find(function(a) { return a.id === id; });
-                if (acc) {
-                    acc.bankName = bankName;
-                    acc.accountName = accountName;
-                    acc.accountNumber = accountNumber;
-                    if (tempBankIconBase64) {
-                        acc.icon = tempBankIconBase64;
-                    }
-                }
-            } else {
-                var newAcc = {
-                    id: 'acc_' + Date.now(),
-                    bankName: bankName,
-                    accountName: accountName,
-                    accountNumber: accountNumber,
-                    icon: tempBankIconBase64 || ""
-                };
-                appData.accounts.push(newAcc);
-            }
-
-            saveData();
-            closeAccountModal();
-            renderApp();
-            showToast("บันทึกข้อมูลบัญชีสำเร็จ!");
-        }
-
-        function deleteAccount(id) {
-            if (confirm("คุณต้องการลบบัญชีธนาคารนี้ใช่หรือไม่?")) {
-                appData.accounts = appData.accounts.filter(function(a) { return a.id !== id; });
-                saveData();
-                renderApp();
-                showToast("ลบบัญชีเรียบร้อยแล้ว");
-            }
-        }
-
-        function escapeHtml(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-    </script>
+<div class="stars-container" id="starsContainer"></div>
+<div class="wave-bg wave-top"></div>
+<div class="wave-bg wave-bottom"></div>
+<!-- Header -->
+<header class="bg-[#140f17]/90 backdrop-blur-md text-white sticky top-0 z-50 border-b border-white/20 shadow-2xl">
+<div class="max-w-5xl mx-auto px-4 py-3 sm:py-3.5 flex justify-between items-center">
+<div class="flex items-center space-x-3">
+<div id="navLogoContainer" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-[#730c1e] to-[#480415] flex items-center justify-center overflow-hidden border-2 border-white/40 shadow-lg float-animation shrink-0">
+<i class="fa-solid fa-crown text-white text-base sm:text-lg"></i>
+</div>
+<div class="min-w-0">
+<h1 id="navSiteTitle" class="font-black text-sm sm:text-base md:text-lg tracking-tight bg-gradient-to-r from-white via-rose-100 to-rose-300 bg-clip-text text-transparent truncate drop-shadow">BN Premium shop</h1>
+<div class="flex items-center space-x-1.5">
+<span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot inline-block shrink-0"></span>
+<p class="text-[10px] sm:text-[11px] text-emerald-300 font-medium tracking-wide truncate">เปิดให้บริการตลอด 24 ชม.</p>
+</div>
+</div>
+</div>
+<div class="shrink-0 flex items-center space-x-2">
+<button onclick="openAdminModal()" class="bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-3.5 sm:px-4.5 py-2 rounded-full text-xs font-bold transition-all duration-300 flex items-center space-x-1.5 sm:space-x-2 shadow-lg shadow-[#730c1e]/50 border border-white/30 active:scale-95">
+<i class="fa-solid fa-lock text-[10px]"></i>
+<span class="hidden sm:inline">ระบบแอดมิน</span>
+<span class="sm:hidden">แอดมิน</span>
+</button>
+<button id="logoutBtn" onclick="handleLogout()" class="hidden bg-rose-950 hover:bg-rose-900 text-rose-200 px-3 py-2 rounded-full text-xs font-bold transition border border-white/30" title="ออกจากระบบ">
+<i class="fa-solid fa-right-from-bracket"></i>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-4xl w-full mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8 relative z-10">
+<!-- Hero / Header Banner -->
+<div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-8 md:p-10 shadow-2xl border-2 border-white/25 text-center relative overflow-hidden card-hover">
+<div class="absolute -right-20 -top-20 w-48 sm:w-64 h-48 sm:h-64 bg-[#730c1e]/40 rounded-full pointer-events-none blur-3xl"></div>
+<div class="absolute -left-20 -bottom-20 w-48 sm:w-64 h-48 sm:h-64 bg-white/10 rounded-full pointer-events-none blur-3xl"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div id="heroLogoContainer" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#730c1e] to-[#480415] text-white flex items-center justify-center text-3xl sm:text-4xl shadow-2xl shadow-[#730c1e]/60 mb-3 sm:mb-4 overflow-hidden border-4 border-white/30 float-animation">
+<i class="fa-solid fa-crown"></i>
+</div>
+<div class="inline-flex items-center space-x-2 bg-white/15 border border-white/30 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-white text-xs font-bold mb-3 shadow-md backdrop-blur-md">
+<i class="fa-solid fa-sparkles text-amber-300 animate-spin" style="animation-duration: 4s;"></i>
+<span class="tracking-wide">จำหน่ายแอพพรีเมียม</span>
+</div>
+<h2 class="text-2xl sm:text-4xl md:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-md bg-gradient-to-r from-white via-rose-100 to-rose-300 bg-clip-text text-transparent">BN Premium shop</h2>
+<p class="text-rose-100/90 text-xs sm:text-sm md:text-base max-w-md mx-auto mb-5 sm:mb-6 font-light px-2">
+ช่องทางชำระเงินสะดวกรวดเร็ว ปลอดภัย โอนแล้วแจ้งสลิปรับแอพทันที!
+</p>
+<!-- Social Contact Buttons -->
+<div class="flex flex-wrap justify-center gap-2.5 sm:gap-3 w-full">
+<a id="facebookLink" href="https://facebook.com" target="_blank" class="bg-[#1877F2] hover:bg-white hover:text-[#1877F2] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xl shadow-blue-600/40 transition-all transform hover:-translate-y-1 border border-white/30 flex-1 sm:flex-none min-w-[140px]">
+<i class="fa-brands fa-facebook text-base"></i>
+<span>Facebook</span>
+</a>
+<a id="lineLink" href="https://line.me" target="_blank" class="bg-[#06C755] hover:bg-white hover:text-[#06C755] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xl shadow-emerald-600/40 transition-all transform hover:-translate-y-1 border border-white/30 flex-1 sm:flex-none min-w-[140px]">
+<i class="fa-brands fa-line text-base"></i>
+<span>LINE OA</span>
+</a>
+</div>
+</div>
+</div>
+<!-- QR Code Section -->
+<div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 md:p-8 shadow-2xl border-2 border-white/20 relative overflow-hidden card-hover">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 sm:mb-6">
+<div class="flex items-center space-x-3">
+<div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#730c1e] text-white flex items-center justify-center shadow-md border border-white/30 shrink-0">
+<i class="fa-solid fa-qrcode text-sm"></i>
+</div>
+<div>
+<h3 class="font-bold text-sm sm:text-base md:text-lg text-white">QR Code สำหรับสแกนจ่าย</h3>
+<p class="text-[11px] sm:text-xs text-rose-200/90">สแกนหรือบันทึกรูป QR Code เพื่อโอนเงินความรวดเร็ว</p>
+</div>
+</div>
+<div class="inline-flex items-center space-x-2 bg-white/15 text-white px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full font-semibold border border-white/30 shadow-sm text-[11px] sm:text-xs self-start sm:self-auto">
+<span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot shrink-0"></span>
+<span>พร้อมเพย์ / พร้อมโอน</span>
+</div>
+</div>
+<!-- QR Code Display Box -->
+<div id="qrCodeContainer" class="flex flex-col md:flex-row items-center justify-center gap-5 sm:gap-6 bg-[#140f17]/90 p-5 sm:p-6 rounded-[1.8rem] sm:rounded-[2rem] border border-white/20 shadow-inner">
+<div class="w-44 h-44 sm:w-52 sm:h-52 md:w-56 md:h-56 bg-white rounded-[1.5rem] sm:rounded-[1.8rem] p-3 shadow-2xl flex items-center justify-center overflow-hidden border-4 border-white/30 shrink-0 transform hover:scale-105 transition duration-300">
+<div id="qrImageWrapper" class="w-full h-full flex items-center justify-center text-slate-400">
+<i class="fa-solid fa-spinner fa-spin text-2xl text-[#730c1e]"></i>
+</div>
+</div>
+<div class="flex flex-col items-center md:items-start text-center md:text-left space-y-3 w-full">
+<div id="qrDetails" class="space-y-1">
+<h4 id="qrTitle" class="font-extrabold text-white text-base sm:text-lg">พร้อมเพย์ BN Premium</h4>
+<p id="qrSubTitle" class="text-xs sm:text-sm text-rose-200 font-mono tracking-wider font-semibold">081-234-5678</p>
+<p class="text-[11px] text-rose-200/80 max-w-xs mt-1">บันทึกรูปภาพ QR Code นี้ลงในเครื่องมือถือของคุณเพื่อเปิดแอปธนาคารสแกนจ่ายได้ทันที</p>
+</div>
+<div class="pt-1 w-full sm:w-auto">
+<button onclick="downloadQRCode()" class="w-full sm:w-auto bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs font-bold transition-all flex items-center justify-center space-x-2 shadow-xl shadow-[#730c1e]/50 border border-white/30 active:scale-95">
+<i class="fa-solid fa-download"></i>
+<span>ดาวน์โหลด/บันทึก QR Code</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-4 px-1 sm:px-2">
+<h3 class="font-bold text-sm sm:text-base md:text-lg text-white flex items-center space-x-2">
+<span class="w-3 h-3 sm:w-3.5 sm:h-3.5 bg-[#730c1e] rounded-full inline-block ring-4 ring-white/30 shadow-md status-dot shrink-0"></span>
+<span>เลือกช่องทางชำระเงิน (บัญชีธนาคาร)</span>
+</h3>
+<span id="accountCountBadge" class="text-xs bg-white/15 text-white px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full font-bold border border-white/30 shadow-sm shrink-0">0 บัญชี</span>
+</div>
+<!-- Loading State -->
+<div id="loadingState" class="text-center py-12 bg-[#210207]/90 rounded-[2rem] sm:rounded-[2.5rem] border-2 border-white/20 mt-4 shadow-xl">
+<i class="fa-solid fa-spinner fa-spin text-3xl text-rose-300 mb-2"></i>
+<p class="text-white font-bold text-sm">กำลังโหลดข้อมูลช่องทางชำระเงิน...</p>
+</div>
+<!-- Error State -->
+<div id="errorState" class="hidden text-center py-12 bg-[#210207]/90 rounded-[2rem] sm:rounded-[2.5rem] border-2 border-rose-500/40 mt-4 shadow-xl">
+<div class="w-14 h-14 bg-rose-900/50 text-rose-300 rounded-full flex items-center justify-center text-xl mx-auto mb-3 border border-rose-500/50">
+<i class="fa-solid fa-triangle-exclamation"></i>
+</div>
+<p class="text-white font-bold text-sm sm:text-base">เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+<p id="errorMessageText" class="text-rose-200/80 text-xs mt-1">กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</p>
+<button onclick="loadAppData()" class="mt-4 bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-5 py-2 rounded-full text-xs font-bold transition shadow border border-white/30">
+ลองใหม่อีกครั้ง
+</button>
+</div>
+<!-- Bank Accounts Grid -->
+<div id="bankAccountsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Dynamic Bank Cards will be rendered here -->
+</div>
+<!-- Empty State -->
+<div id="emptyState" class="hidden text-center py-10 sm:py-12 bg-[#210207]/90 rounded-[2rem] sm:rounded-[2.5rem] border-2 border-dashed border-white/30 mt-4 shadow-xl">
+<div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#480415] text-rose-300 rounded-full flex items-center justify-center text-xl sm:text-2xl mx-auto mb-3 shadow-inner border border-white/30">
+<i class="fa-solid fa-wallet"></i>
+</div>
+<p class="text-white font-bold text-sm sm:text-base">ยังไม่มีข้อมูลบัญชีธนาคาร</p>
+<p class="text-rose-200/80 text-xs mt-1">กรุณาเข้าสู่ระบบแอดมินเพื่อเพิ่มบัญชีธนาคาร</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#140f17]/95 border-t border-white/20 py-5 sm:py-6 text-center text-xs text-rose-200/80 mt-10 sm:mt-12 relative z-10 backdrop-blur-md">
+<div class="max-w-5xl mx-auto px-4">
+<p class="font-bold text-white">© <span id="currentYear"></span> BN Premium shop. สงวนลิขสิทธิ์ทุกประการ.</p>
+<p class="mt-1 text-rose-200/70 text-[11px] sm:text-xs">จำหน่ายแอพพรีเมียมราคาประหยัด ดูแลตลอดอายุการใช้งาน</p>
+</div>
+</footer>
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-[#140f17] text-white px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 border-2 border-white/45 max-w-[90vw]">
+<div id="toastIcon" class="w-6 h-6 rounded-full bg-[#730c1e] text-white flex items-center justify-center text-xs shadow border border-white/30 shrink-0">
+<i class="fa-solid fa-check"></i>
+</div>
+<span id="toastMessage" class="text-xs sm:text-sm font-bold truncate">คัดลอกสำเร็จ!</span>
+</div>
+<!-- Admin Login Modal -->
+<div id="adminLoginModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+<div class="bg-[#210207] rounded-[2rem] sm:rounded-[2.5rem] max-w-sm w-full p-5 sm:p-6 shadow-2xl transform transition-all border-2 border-white/30 relative">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#730c1e] text-white flex items-center justify-center border border-white/30 shadow shrink-0">
+<i class="fa-solid fa-lock text-xs sm:text-sm"></i>
+</div>
+<h3 class="font-bold text-sm sm:text-base text-white">เข้าสู่ระบบแอดมิน</h3>
+</div>
+<button onclick="closeAdminLoginModal()" class="w-8 h-8 rounded-full bg-white/10 text-rose-200 hover:bg-white hover:text-[#210207] flex items-center justify-center transition shrink-0">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+<form id="loginForm" onsubmit="handleAdminLogin(event)" class="space-y-3.5 sm:space-y-4">
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">อีเมลผู้ดูแลระบบ (Email)</label>
+<input type="email" id="adminEmail" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white focus:outline-none focus:border-white focus:ring-2 focus:ring-white/40 text-xs transition font-mono" placeholder="admin@example.com">
+</div>
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">รหัสผ่าน (Password)</label>
+<input type="password" id="adminPass" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white focus:outline-none focus:border-white focus:ring-2 focus:ring-white/40 text-xs transition font-mono" placeholder="••••••••">
+</div>
+<div id="loginError" class="hidden text-xs text-rose-100 font-medium bg-rose-950/80 p-2.5 rounded-xl border border-rose-500/60 text-center shadow">
+อีเมล รหัสผ่านไม่ถูกต้อง หรือไม่ใช่บัญชีผู้ดูแลระบบ
+</div>
+<div class="pt-1">
+<button type="submit" id="loginSubmitBtn" class="w-full bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-3 rounded-full font-bold text-xs transition-all shadow-xl shadow-[#730c1e]/50 border border-white/35 active:scale-95">
+เข้าสู่ระบบ
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Admin Dashboard Modal -->
+<div id="adminDashboardModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 md:p-6">
+<div class="bg-[#210207] rounded-[2rem] sm:rounded-[2.5rem] max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border-2 border-white/30">
+<!-- Modal Header -->
+<div class="bg-[#140f17] text-white px-4 sm:px-6 py-3.5 sm:py-4 flex justify-between items-center border-b border-white/20 shadow">
+<div class="flex items-center space-x-3 min-w-0">
+<div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#730c1e] text-white flex items-center justify-center border border-white/30 shrink-0">
+<i class="fa-solid fa-sliders text-xs sm:text-sm"></i>
+</div>
+<div class="min-w-0">
+<h3 class="font-bold text-xs sm:text-sm md:text-base truncate">ระบบจัดการหลังบ้าน (Admin Dashboard)</h3>
+<p class="text-[10px] sm:text-[11px] text-rose-200/80 truncate">จัดการโลโก้ QR Code บัญชีธนาคาร และช่องทางติดต่อ</p>
+</div>
+</div>
+<button onclick="closeAdminDashboard()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white hover:text-[#210207] text-white flex items-center justify-center transition shrink-0 ml-2">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+<!-- Dashboard Content Tabs / Body -->
+<div class="flex-grow overflow-y-auto p-3 sm:p-5 md:p-6 space-y-5 sm:space-y-6 bg-[#1f0307]">
+<!-- Section 1: General Settings & Logo & QR Code -->
+<div class="bg-[#210207] p-4 sm:p-5 rounded-[1.8rem] sm:rounded-[2rem] border-2 border-white/20 shadow-md space-y-4 sm:space-y-5">
+<h4 class="font-bold text-white text-xs sm:text-sm flex items-center space-x-2">
+<i class="fa-solid fa-image text-rose-300"></i>
+<span>ตั้งค่าโลโก้ร้าน & QR Code ชำระเงิน</span>
+</h4>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+<!-- Logo Upload Box -->
+<div class="p-3.5 sm:p-4 bg-[#140f17] rounded-[1.5rem] sm:rounded-[1.8rem] border border-white/20 flex flex-col items-center justify-center shadow-inner">
+<div id="previewLogoContainer" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#730c1e] to-[#480415] text-white flex items-center justify-center text-xl sm:text-2xl mb-2 overflow-hidden shadow-md border-2 border-white/30">
+<i class="fa-solid fa-crown"></i>
+</div>
+<span class="text-[11px] text-rose-200 font-medium mb-2">โลโก้ปัจจุบัน</span>
+<input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
+</div>
+<!-- QR Code Upload Box -->
+<div class="p-3.5 sm:p-4 bg-[#140f17] rounded-[1.5rem] sm:rounded-[1.8rem] border border-white/20 flex flex-col items-center justify-center shadow-inner">
+<div id="previewQRContainer" class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white text-slate-700 flex items-center justify-center text-xl sm:text-2xl mb-2 overflow-hidden shadow-md border-2 border-white/30">
+<i class="fa-solid fa-qrcode"></i>
+</div>
+<span class="text-[11px] text-rose-200 font-medium mb-2">รูป QR Code ปัจจุบัน</span>
+<input type="file" id="qrFileInput" accept="image/*" onchange="handleQRUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
+</div>
+</div>
+<!-- QR Title & Subtitle Settings -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">หัวข้อ QR Code</label>
+<input type="text" id="settingQRTitle" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="พร้อมเพย์ BN Premium">
+</div>
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">รายละเอียดใต้ QR Code (เช่น เลขพร้อมเพย์)</label>
+<input type="text" id="settingQRSub" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white font-mono" placeholder="081-234-5678">
+</div>
+</div>
+<!-- Social Contacts -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">ลิงก์ Facebook เพจ/กลุ่ม</label>
+<input type="url" id="settingFacebook" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="https://facebook.com/yourpage">
+</div>
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">ลิงก์ LINE Official / โปรไฟล์</label>
+<input type="url" id="settingLine" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="https://line.me/ti/p/@yourline">
+</div>
+</div>
+<div class="pt-1">
+<button id="saveSettingsBtn" onclick="saveGeneralSettings()" class="w-full sm:w-auto bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-6 py-2.5 rounded-full text-xs font-bold transition-all shadow-lg border border-white/30 active:scale-95">
+บันทึกการตั้งค่าทั่วไป & QR Code
+</button>
+</div>
+</div>
+<!-- Section 2: Bank Accounts Management -->
+<div class="bg-[#210207] p-4 sm:p-5 rounded-[1.8rem] sm:rounded-[2rem] border-2 border-white/20 shadow-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-4">
+<h4 class="font-bold text-white text-xs sm:text-sm flex items-center space-x-2">
+<i class="fa-solid fa-building-columns text-rose-300"></i>
+<span>จัดการบัญชีธนาคารร้าน</span>
+</h4>
+<button onclick="openAddAccountModal()" class="bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center justify-center space-x-1.5 shadow-md border border-white/30 active:scale-95 self-start sm:self-auto">
+<i class="fa-solid fa-plus text-[10px]"></i>
+<span>เพิ่มบัญชีใหม่</span>
+</button>
+</div>
+<!-- Admin Bank List -->
+<div id="adminBankList" class="space-y-2.5">
+<!-- Populated dynamically -->
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="bg-[#140f17] border-t border-white/20 px-4 sm:px-6 py-3 flex justify-between items-center shadow">
+<span class="text-[10px] sm:text-[11px] text-rose-200/70">การเปลี่ยนแปลงจะถูกบันทึกในฐานข้อมูล Supabase ทันที</span>
+<button onclick="closeAdminDashboard()" class="bg-white/15 hover:bg-white hover:text-[#210207] text-white px-4 sm:px-5 py-2 rounded-full text-xs font-bold transition border border-white/30">
+ปิดหน้าต่าง
+</button>
+</div>
+</div>
+</div>
+<!-- Account Add/Edit Modal -->
+<div id="accountModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+<div class="bg-[#210207] rounded-[2rem] sm:rounded-[2.5rem] max-w-sm w-full p-5 sm:p-6 shadow-2xl border-2 border-white/30">
+<div class="flex justify-between items-center mb-4">
+<h3 id="accountModalTitle" class="font-bold text-sm sm:text-base text-white">เพิ่มบัญชีธนาคารใหม่</h3>
+<button onclick="closeAccountModal()" class="w-8 h-8 rounded-full bg-white/10 text-rose-200 hover:bg-white hover:text-[#210207] flex items-center justify-center transition">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+<form id="accountForm" onsubmit="saveAccountData(event)" class="space-y-3.5">
+<input type="hidden" id="editAccountId">
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">ชื่อธนาคาร</label>
+<input type="text" id="bankName" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="เช่น กสิกรไทย, พร้อมเพย์">
+</div>
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">ชื่อบัญชี</label>
+<input type="text" id="accountName" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="เช่น น.ส. บีเอ็น พรีเมียม">
+</div>
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">เลขที่บัญชี / เบอร์พร้อมเพย์</label>
+<input type="text" id="accountNumber" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white font-mono" placeholder="เช่น 123-4-56789-0">
+</div>
+<div>
+<label class="block text-xs font-semibold text-rose-200 mb-1">ไอคอนธนาคาร (เลือกรูปภาพ)</label>
+<div class="flex items-center space-x-3">
+<div id="previewBankIconContainer" class="w-10 h-10 rounded-full bg-[#140f17] text-rose-200 flex items-center justify-center text-sm overflow-hidden border border-white/30 shrink-0 shadow">
+<i class="fa-solid fa-building-columns"></i>
+</div>
+<input type="file" id="bankIconInput" accept="image/*" onchange="handleBankIconUpload(event)" class="w-full text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
+</div>
+</div>
+<div class="pt-2 flex space-x-2">
+<button type="button" onclick="closeAccountModal()" class="w-1/2 bg-white/10 hover:bg-white hover:text-[#210207] text-rose-100 py-2.5 rounded-full font-bold text-xs transition border border-white/25">
+ยกเลิก
+</button>
+<button type="submit" id="saveAccountBtn" class="w-1/2 bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-2.5 rounded-full font-bold text-xs transition-all shadow-lg border border-white/35 active:scale-95">
+บันทึกบัญชี
+</button>
+</div>
+</form>
+</div>
+</div>
+<script>
+// Supabase Configuration
+const SUPABASE_URL = "https://spbxjshtnnmawxrcdhwg.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwYnhqc2h0bm5tYXd4cmNkaHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1MjI0NDYsImV4cCI6MjEwNzA5ODQ0Nn0.E7QjinQNaRI_SpeLiaocZvABVut0GWT0dk4ApT2eh_A";
+// Initialize Supabase Client
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Application State
+let siteSettings = {
+id: null,
+logo: "",
+qr_code: "",
+qr_title: "พร้อมเพย์ BN Premium",
+qr_sub: "081-234-5678",
+facebook: "https://facebook.com",
+line: "https://line.me"
+};
+let bankAccounts = [];
+// Temporary storage for uploaded images
+let tempLogoBase64 = "";
+let tempQRBase64 = "";
+let tempBankIconBase64 = "";
+window.onload = function() {
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+createStarfield();
+loadAppData();
+checkUserSession();
+};
+// Create twinkling stars for background
+function createStarfield() {
+const container = document.getElementById('starsContainer');
+const count = window.innerWidth < 768 ? 30 : 60;
+container.innerHTML = "";
+for (let i = 0; i < count; i++) {
+const star = document.createElement('div');
+star.className = 'star';
+const size = Math.random() * 3 + 1;
+star.style.width = size + 'px';
+star.style.height = size + 'px';
+star.style.top = Math.random() * 100 + '%';
+star.style.left = Math.random() * 100 + '%';
+star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+star.style.setProperty('--opacity', Math.random() * 0.7 + 0.3);
+star.style.animationDelay = (Math.random() * 3) + 's';
+container.appendChild(star);
+}
+}
+// Load data from Supabase
+async function loadAppData() {
+const loadingState = document.getElementById('loadingState');
+const errorState = document.getElementById('errorState');
+const grid = document.getElementById('bankAccountsGrid');
+loadingState.classList.remove('hidden');
+errorState.classList.add('hidden');
+grid.innerHTML = "";
+try {
+// Fetch site settings
+const { data: settingsData, error: settingsError } = await supabase
+.from('site_settings')
+.select('*')
+.limit(1)
+.maybeSingle();
+if (settingsError) throw settingsError;
+if (settingsData) {
+siteSettings = settingsData;
+}
+// Fetch bank accounts
+const { data: accountsData, error: accountsError } = await supabase
+.from('bank_accounts')
+.select('*')
+.order('created_at', { ascending: true });
+if (accountsError) throw accountsError;
+bankAccounts = accountsData || [];
+loadingState.classList.add('hidden');
+renderApp();
+} catch (err) {
+console.error("Error loading app data:", err);
+loadingState.classList.add('hidden');
+errorState.classList.remove('hidden');
+document.getElementById('errorMessageText').textContent = err.message || "ไม่สามารถเชื่อมต่อฐานข้อมูลได้";
+}
+}
+function renderApp() {
+// Render Logos
+const navLogoContainer = document.getElementById('navLogoContainer');
+const heroLogoContainer = document.getElementById('heroLogoContainer');
+const previewLogoContainer = document.getElementById('previewLogoContainer');
+if (siteSettings.logo) {
+navLogoContainer.innerHTML = ⁠<img src="${escapeHtml(siteSettings.logo)}" alt="Logo" class="w-full h-full object-cover">⁠;
+heroLogoContainer.innerHTML = ⁠<img src="${escapeHtml(siteSettings.logo)}" alt="Logo" class="w-full h-full object-cover">⁠;
+previewLogoContainer.innerHTML = ⁠<img src="${escapeHtml(siteSettings.logo)}" alt="Logo" class="w-full h-full object-cover">⁠;
+} else {
+navLogoContainer.innerHTML = '<i class="fa-solid fa-crown text-white text-base sm:text-lg"></i>';
+heroLogoContainer.innerHTML = '<i class="fa-solid fa-crown"></i>';
+previewLogoContainer.innerHTML = '<i class="fa-solid fa-crown text-white text-lg"></i>';
+}
+// Render QR Code Section
+const qrImageWrapper = document.getElementById('qrImageWrapper');
+const previewQRContainer = document.getElementById('previewQRContainer');
+const qrTitle = document.getElementById('qrTitle');
+const qrSubTitle = document.getElementById('qrSubTitle');
+qrTitle.textContent = siteSettings.qr_title || "พร้อมเพย์ BN Premium";
+qrSubTitle.textContent = siteSettings.qr_sub || "081-234-5678";
+document.getElementById('settingQRTitle').value = siteSettings.qr_title || "";
+document.getElementById('settingQRSub').value = siteSettings.qr_sub || "";
+if (siteSettings.qr_code) {
+qrImageWrapper.innerHTML = ⁠<img id="actualQrImg" src="${escapeHtml(siteSettings.qr_code)}" alt="QR Code" class="w-full h-full object-contain rounded-2xl">⁠;
+previewQRContainer.innerHTML = ⁠<img src="${escapeHtml(siteSettings.qr_code)}" alt="QR" class="w-full h-full object-cover">⁠;
+} else {
+qrImageWrapper.innerHTML = '<div class="flex flex-col items-center justify-center text-center p-2 text-slate-500"><i class="fa-solid fa-qrcode text-3xl sm:text-4xl mb-1 text-[#730c1e]"></i><span class="text-[10px]">ยังไม่ได้อัปโหลด QR Code</span></div>';
+previewQRContainer.innerHTML = '<i class="fa-solid fa-qrcode text-slate-700"></i>';
+}
+// Render Social Links
+document.getElementById('facebookLink').href = siteSettings.facebook || "https://facebook.com";
+document.getElementById('lineLink').href = siteSettings.line || "https://line.me";
+document.getElementById('settingFacebook').value = siteSettings.facebook || "";
+document.getElementById('settingLine').value = siteSettings.line || "";
+// Render Bank Accounts Grid
+const grid = document.getElementById('bankAccountsGrid');
+const emptyState = document.getElementById('emptyState');
+const countBadge = document.getElementById('accountCountBadge');
+countBadge.textContent = bankAccounts.length + " บัญชี";
+if (bankAccounts.length === 0) {
+grid.innerHTML = "";
+emptyState.classList.remove('hidden');
+} else {
+emptyState.classList.add('hidden');
+grid.innerHTML = bankAccounts.map(function(acc) {
+var iconHtml = acc.icon ? ⁠<img src="${escapeHtml(acc.icon)}" alt="${escapeHtml(acc.bank_name)}" class="w-full h-full object-cover">⁠ : '<i class="fa-solid fa-building-columns"></i>';
+return ⁠<div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 shadow-xl card-hover border-2 border-white/20 flex flex-col justify-between"> <div> <div class="flex items-center space-x-3 mb-4"> <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#140f17] text-white flex items-center justify-center text-base sm:text-lg overflow-hidden border-2 border-white/30 shrink-0 shadow-md">${iconHtml}</div> <div class="min-w-0 flex-1"> <h4 class="font-extrabold text-white text-sm sm:text-base truncate">${escapeHtml(acc.bank_name)}</h4> <div class="flex items-center space-x-1.5"> <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot inline-block shrink-0"></span> <p class="text-[10px] sm:text-[11px] text-emerald-300 font-semibold tracking-wide truncate">บัญชีพร้อมใช้งาน</p> </div> </div> </div> <div class="bg-[#140f17]/90 rounded-[1.5rem] sm:rounded-[1.8rem] p-3.5 sm:p-4 space-y-2 border border-white/20 mb-4 sm:mb-5 shadow-inner"> <div class="flex justify-between items-center text-xs"> <span class="text-rose-200/90 font-medium shrink-0">ชื่อบัญชี:</span> <span class="font-bold text-white text-right truncate pl-2">${escapeHtml(acc.account_name)}</span> </div> <div class="flex justify-between items-center text-xs pt-2 border-t border-white/15"> <span class="text-rose-200/90 font-medium shrink-0">เลขที่บัญชี:</span> <span class="font-extrabold text-white text-sm sm:text-base tracking-wider font-mono truncate pl-2">${escapeHtml(acc.account_number)}</span> </div> </div> </div> <button onclick="copyToClipboard('${escapeHtml(acc.account_number)}')" class="w-full bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-2.5 sm:py-3 rounded-full font-bold text-xs transition-all flex items-center justify-center space-x-2 shadow-xl shadow-[#730c1e]/40 border border-white/30 active:scale-95"> <i class="fa-regular fa-copy"></i> <span>คัดลอกเลขที่บัญชี</span> </button> </div>⁠;
+}).join('');
+}
+// Render Admin Bank List
+var adminBankList = document.getElementById('adminBankList');
+if (bankAccounts.length === 0) {
+adminBankList.innerHTML = '<p class="text-xs text-rose-200 text-center py-4">ไม่มีรายการบัญชีธนาคาร</p>';
+} else {
+adminBankList.innerHTML = bankAccounts.map(function(acc) {
+var adminIconHtml = acc.icon ? ⁠<img src="${escapeHtml(acc.icon)}" alt="" class="w-full h-full object-cover">⁠ : '<i class="fa-solid fa-building-columns text-xs"></i>';
+return ⁠<div class="flex items-center justify-between p-3 sm:p-3.5 bg-[#140f17] rounded-2xl border border-white/20 shadow-sm gap-2"> <div class="flex items-center space-x-2.5 min-w-0 flex-1"> <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#210207] flex items-center justify-center overflow-hidden border border-white/30 shrink-0 text-white shadow">${adminIconHtml}</div> <div class="min-w-0 flex-1"> <p class="font-bold text-xs text-white truncate">${escapeHtml(acc.bank_name)}</p> <p class="text-[10px] sm:text-[11px] text-rose-200/80 font-mono truncate">${escapeHtml(acc.account_number)} (${escapeHtml(acc.account_name)})</p> </div> </div> <div class="flex items-center space-x-1 shrink-0"> <button onclick="openEditAccountModal('${acc.id}')" class="p-2 text-rose-200 hover:text-[#210207] hover:bg-white rounded-full text-xs transition shadow" title="แก้ไข"> <i class="fa-solid fa-pen"></i> </button> <button onclick="deleteAccount('${acc.id}')" class="p-2 text-rose-300 hover:text-white hover:bg-[#730c1e] rounded-full text-xs transition shadow" title="ลบ"> <i class="fa-solid fa-trash"></i> </button> </div> </div>⁠;
+}).join('');
+}
+}
+// Image compression helper
+function compressImage(file, maxWidth, maxHeight, callback) {
+var reader = new FileReader();
+reader.readAsDataURL(file);
+reader.onload = function(event) {
+var img = new Image();
+img.src = event.target.result;
+img.onload = function() {
+var canvas = document.createElement('canvas');
+var width = img.width;
+var height = img.height;
+if (width > height) {
+if (width > maxWidth) {
+height *= maxWidth / width;
+width = maxWidth;
+}
+} else {
+if (height > maxHeight) {
+width *= maxHeight / height;
+height = maxHeight;
+}
+}
+canvas.width = width;
+canvas.height = height;
+var ctx = canvas.getContext('2d');
+ctx.drawImage(img, 0, 0, width, height);
+var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+callback(dataUrl);
+};
+};
+}
+function handleLogoUpload(event) {
+var file = event.target.files[0];
+if (file) {
+compressImage(file, 200, 200, function(compressedBase64) {
+tempLogoBase64 = compressedBase64;
+document.getElementById('previewLogoContainer').innerHTML = ⁠<img src="${tempLogoBase64}" class="w-full h-full object-cover">⁠;
+});
+}
+}
+function handleQRUpload(event) {
+var file = event.target.files[0];
+if (file) {
+compressImage(file, 500, 500, function(compressedBase64) {
+tempQRBase64 = compressedBase64;
+document.getElementById('previewQRContainer').innerHTML = ⁠<img src="${tempQRBase64}" class="w-full h-full object-cover">⁠;
+});
+}
+}
+function handleBankIconUpload(event) {
+var file = event.target.files[0];
+if (file) {
+compressImage(file, 150, 150, function(compressedBase64) {
+tempBankIconBase64 = compressedBase64;
+document.getElementById('previewBankIconContainer').innerHTML = ⁠<img src="${tempBankIconBase64}" class="w-full h-full object-cover">⁠;
+});
+}
+}
+async function saveGeneralSettings() {
+const btn = document.getElementById('saveSettingsBtn');
+btn.disabled = true;
+btn.textContent = "กำลังบันทึก...";
+try {
+const updatedData = {
+qr_title: document.getElementById('settingQRTitle').value.trim() || "พร้อมเพย์ BN Premium",
+qr_sub: document.getElementById('settingQRSub').value.trim() || "",
+facebook: document.getElementById('settingFacebook').value.trim(),
+line: document.getElementById('settingLine').value.trim(),
+updated_at: new Date()
+};
+if (tempLogoBase64) {
+updatedData.logo = tempLogoBase64;
+}
+if (tempQRBase64) {
+updatedData.qr_code = tempQRBase64;
+}
+if (siteSettings.id) {
+const { error } = await supabase
+.from('site_settings')
+.update(updatedData)
+.eq('id', siteSettings.id);
+if (error) throw error;
+} else {
+const { data, error } = await supabase
+.from('site_settings')
+.insert([updatedData])
+.select()
+.single();
+if (error) throw error;
+if (data) siteSettings.id = data.id;
+}
+// Update local object
+siteSettings.qr_title = updatedData.qr_title;
+siteSettings.qr_sub = updatedData.qr_sub;
+siteSettings.facebook = updatedData.facebook;
+siteSettings.line = updatedData.line;
+if (updatedData.logo) siteSettings.logo = updatedData.logo;
+if (updatedData.qr_code) siteSettings.qr_code = updatedData.qr_code;
+tempLogoBase64 = "";
+tempQRBase64 = "";
+renderApp();
+showToast("บันทึกการตั้งค่าสำเร็จ!");
+} catch (err) {
+console.error("Error saving settings:", err);
+alert("เกิดข้อผิดพลาดในการบันทึก: " + (err.message || "ไม่มีสิทธิ์ดำเนินการ"));
+} finally {
+btn.disabled = false;
+btn.textContent = "บันทึกการตั้งค่าทั่วไป & QR Code";
+}
+}
+function downloadQRCode() {
+if (!siteSettings.qr_code) {
+showToast("ยังไม่มีรูป QR Code สำหรับดาวน์โหลด");
+return;
+}
+var link = document.createElement('a');
+link.href = siteSettings.qr_code;
+link.download = 'BN_Premium_QRCode.jpg';
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+showToast("ดาวน์โหลด QR Code เรียบร้อยแล้ว!");
+}
+function copyToClipboard(text) {
+if (navigator.clipboard && navigator.clipboard.writeText) {
+navigator.clipboard.writeText(text).then(function() {
+showToast("คัดลอกเลขบัญชี " + text + " แล้ว");
+}).catch(function() {
+fallbackCopy(text);
+});
+} else {
+fallbackCopy(text);
+}
+}
+function fallbackCopy(text) {
+var textArea = document.createElement("textarea");
+textArea.value = text;
+textArea.style.position = "fixed";
+document.body.appendChild(textArea);
+textArea.focus();
+textArea.select();
+try {
+document.execCommand('copy');
+showToast("คัดลอกเลขบัญชี " + text + " แล้ว");
+} catch (err) {
+showToast("ไม่สามารถคัดลอกได้");
+}
+document.body.removeChild(textArea);
+}
+function showToast(message) {
+var toast = document.getElementById('toast');
+var toastMessage = document.getElementById('toastMessage');
+toastMessage.textContent = message;
+toast.classList.remove('translate-y-20', 'opacity-0');
+setTimeout(function() {
+toast.classList.add('translate-y-20', 'opacity-0');
+}, 3000);
+}
+async function checkUserSession() {
+const { data: { session } } = await supabase.auth.getSession();
+const logoutBtn = document.getElementById('logoutBtn');
+if (session) {
+logoutBtn.classList.remove('hidden');
+} else {
+logoutBtn.classList.add('hidden');
+}
+}
+async function handleLogout() {
+await supabase.auth.signOut();
+document.getElementById('logoutBtn').classList.add('hidden');
+closeAdminDashboard();
+showToast("ออกจากระบบเรียบร้อยแล้ว");
+}
+async function openAdminModal() {
+// Check if already logged in and is admin
+const { data: { session } } = await supabase.auth.getSession();
+if (session) {
+const isAdmin = await verifyAdminPrivileges();
+if (isAdmin) {
+document.getElementById('adminDashboardModal').classList.remove('hidden');
+tempLogoBase64 = "";
+tempQRBase64 = "";
+return;
+} else {
+alert("บัญชีของคุณไม่มีสิทธิ์เป็นผู้ดูแลระบบ (Admin)");
+await supabase.auth.signOut();
+checkUserSession();
+}
+}
+document.getElementById('adminEmail').value = '';
+document.getElementById('adminPass').value = '';
+document.getElementById('loginError').classList.add('hidden');
+document.getElementById('adminLoginModal').classList.remove('hidden');
+}
+function closeAdminLoginModal() {
+document.getElementById('adminLoginModal').classList.add('hidden');
+}
+async function verifyAdminPrivileges() {
+try {
+const { data, error } = await supabase.rpc('is_admin');
+if (error) throw error;
+return data === true;
+} catch (err) {
+console.error("Verification error:", err);
+return false;
+}
+}
+async function handleAdminLogin(event) {
+event.preventDefault();
+const email = document.getElementById('adminEmail').value.trim();
+const pass = document.getElementById('adminPass').value.trim();
+const submitBtn = document.getElementById('loginSubmitBtn');
+const errorDiv = document.getElementById('loginError');
+submitBtn.disabled = true;
+submitBtn.textContent = "กำลังตรวจสอบ...";
+errorDiv.classList.add('hidden');
+try {
+const { data, error } = await supabase.auth.signInWithPassword({
+email: email,
+password: pass
+});
+if (error) throw error;
+// Verify admin status via is_admin() function
+const isAdmin = await verifyAdminPrivileges();
+if (!isAdmin) {
+await supabase.auth.signOut();
+throw new Error("บัญชีนี้ไม่ใช่ผู้ดูแลระบบ");
+}
+closeAdminLoginModal();
+checkUserSession();
+document.getElementById('adminDashboardModal').classList.remove('hidden');
+tempLogoBase64 = "";
+tempQRBase64 = "";
+showToast("เข้าสู่ระบบแอดมินสำเร็จ!");
+} catch (err) {
+console.error("Login error:", err);
+errorDiv.textContent = err.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+errorDiv.classList.remove('hidden');
+} finally {
+submitBtn.disabled = false;
+submitBtn.textContent = "เข้าสู่ระบบ";
+}
+}
+function closeAdminDashboard() {
+document.getElementById('adminDashboardModal').classList.add('hidden');
+loadAppData();
+}
+function openAddAccountModal() {
+document.getElementById('accountModalTitle').textContent = "เพิ่มบัญชีธนาคารใหม่";
+document.getElementById('editAccountId').value = "";
+document.getElementById('bankName').value = "";
+document.getElementById('accountName').value = "";
+document.getElementById('accountNumber').value = "";
+document.getElementById('bankIconInput').value = "";
+tempBankIconBase64 = "";
+document.getElementById('previewBankIconContainer').innerHTML = '<i class="fa-solid fa-building-columns"></i>';
+document.getElementById('accountModal').classList.remove('hidden');
+}
+function openEditAccountModal(id) {
+var acc = bankAccounts.find(function(a) { return a.id === id; });
+if (!acc) return;
+document.getElementById('accountModalTitle').textContent = "แก้ไขบัญชีธนาคาร";
+document.getElementById('editAccountId').value = acc.id;
+document.getElementById('bankName').value = acc.bank_name;
+document.getElementById('accountName').value = acc.account_name;
+document.getElementById('accountNumber').value = acc.account_number;
+document.getElementById('bankIconInput').value = "";
+tempBankIconBase64 = acc.icon || "";
+if (acc.icon) {
+document.getElementById('previewBankIconContainer').innerHTML = ⁠<img src="${acc.icon}" class="w-full h-full object-cover">⁠;
+} else {
+document.getElementById('previewBankIconContainer').innerHTML = '<i class="fa-solid fa-building-columns"></i>';
+}
+document.getElementById('accountModal').classList.remove('hidden');
+}
+function closeAccountModal() {
+document.getElementById('accountModal').classList.add('hidden');
+}
+async function saveAccountData(event) {
+event.preventDefault();
+const btn = document.getElementById('saveAccountBtn');
+btn.disabled = true;
+btn.textContent = "กำลังบันทึก...";
+var id = document.getElementById('editAccountId').value;
+var bankName = document.getElementById('bankName').value.trim();
+var accountName = document.getElementById('accountName').value.trim();
+var accountNumber = document.getElementById('accountNumber').value.trim();
+try {
+const payload = {
+bank_name: bankName,
+account_name: accountName,
+account_number: accountNumber
+};
+if (tempBankIconBase64) {
+payload.icon = tempBankIconBase64;
+}
+if (id) {
+const { error } = await supabase
+.from('bank_accounts')
+.update(payload)
+.eq('id', id);
+if (error) throw error;
+} else {
+const { error } = await supabase
+.from('bank_accounts')
+.insert([payload]);
+if (error) throw error;
+}
+closeAccountModal();
+await loadAppData();
+showToast("บันทึกข้อมูลบัญชีสำเร็จ!");
+} catch (err) {
+console.error("Error saving account:", err);
+alert("เกิดข้อผิดพลาด: " + (err.message || "ไม่มีสิทธิ์ดำเนินการ"));
+} finally {
+btn.disabled = false;
+btn.textContent = "บันทึกบัญชี";
+}
+}
+async function deleteAccount(id) {
+if (confirm("คุณต้องการลบบัญชีธนาคารนี้ใช่หรือไม่?")) {
+try {
+const { error } = await supabase
+.from('bank_accounts')
+.delete()
+.eq('id', id);
+if (error) throw error;
+await loadAppData();
+showToast("ลบบัญชีเรียบร้อยแล้ว");
+} catch (err) {
+console.error("Error deleting account:", err);
+alert("ไม่สามารถลบข้อมูลได้: " + (err.message || "ไม่มีสิทธิ์ดำเนินการ"));
+}
+}
+}
+function escapeHtml(str) {
+return String(str || '')
+.replace(/&/g, '&')
+.replace(/</g, '<')
+.replace(/>/g, '>')
+.replace(/"/g, '"')
+.replace(/'/g, ''');
+}
+</script>
 </body>
 </html>
