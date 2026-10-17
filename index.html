@@ -488,6 +488,13 @@
                     <input type="text" id="accountNumber" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white font-mono" placeholder="เช่น 123-4-56789-0">
                 </div>
                 <div>
+                    <label class="block text-xs font-semibold text-rose-200 mb-1">สถานะการใช้งาน</label>
+                    <label class="flex items-center space-x-2 bg-[#140f17] border border-white/25 px-4 py-2.5 rounded-full cursor-pointer hover:bg-white/5 transition">
+                        <input type="checkbox" id="accountStatus" class="w-4 h-4 text-[#730c1e] bg-[#210207] border-white/30 rounded focus:ring-rose-500 focus:ring-2">
+                        <span class="text-xs text-white font-medium">เปิดใช้งาน (รับโอนปกติ)</span>
+                    </label>
+                </div>
+                <div>
                     <label class="block text-xs font-semibold text-rose-200 mb-1">ไอคอนธนาคาร (เลือกรูปภาพ)</label>
                     <div class="flex items-center space-x-3">
                         <div id="previewBankIconContainer" class="w-10 h-10 rounded-full bg-[#140f17] text-rose-200 flex items-center justify-center text-sm overflow-hidden border border-white/30 shrink-0 shadow">
@@ -702,17 +709,28 @@
                 emptyState.classList.add('hidden');
                 grid.classList.remove('hidden');
                 grid.innerHTML = appData.accounts.map(acc => {
+                    // กำหนดสถานะและสีต่างๆ ตาม is_active
+                    const isActive = acc.is_active !== false; // ถ้าไม่มีค่าให้ถือว่าเปิดใช้
+                    const statusDot = isActive ? 'bg-emerald-400 status-dot' : 'bg-rose-500';
+                    const statusText = isActive ? 'บัญชีพร้อมใช้งาน' : 'งดใช้งานชั่วคราว';
+                    const statusTextColor = isActive ? 'text-emerald-300' : 'text-rose-300';
+                    const cardOpacity = isActive ? '' : 'opacity-80 grayscale-[0.4]';
+                    const btnStyle = isActive ? 'bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white active:scale-95 shadow-xl shadow-[#730c1e]/40 cursor-pointer' : 'bg-gray-800/80 text-gray-400 cursor-not-allowed border-gray-600/50';
+                    const btnAction = isActive ? `onclick="copyToClipboard('${escapeHtml(acc.account_number)}')"` : 'disabled';
+                    const btnIcon = isActive ? '<i class="fa-regular fa-copy"></i>' : '<i class="fa-solid fa-ban"></i>';
+                    const btnText = isActive ? 'คัดลอกเลขที่บัญชี' : 'งดทำรายการชั่วคราว';
+
                     const iconHtml = acc.icon ? `<img src="${escapeHtml(acc.icon)}" alt="${escapeHtml(acc.bank_name)}" class="w-full h-full object-cover">` : '<i class="fa-solid fa-building-columns"></i>';
                     return `
-                    <div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 shadow-xl card-hover border-2 border-white/20 flex flex-col justify-between">
+                    <div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 shadow-xl card-hover border-2 border-white/20 flex flex-col justify-between ${cardOpacity}">
                         <div>
                             <div class="flex items-center space-x-3 mb-4">
                                 <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#140f17] text-white flex items-center justify-center text-base sm:text-lg overflow-hidden border-2 border-white/30 shrink-0 shadow-md">${iconHtml}</div>
                                 <div class="min-w-0 flex-1">
                                     <h4 class="font-extrabold text-white text-sm sm:text-base truncate">${escapeHtml(acc.bank_name)}</h4>
                                     <div class="flex items-center space-x-1.5">
-                                        <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot inline-block shrink-0"></span>
-                                        <p class="text-[10px] sm:text-[11px] text-emerald-300 font-semibold tracking-wide truncate">บัญชีพร้อมใช้งาน</p>
+                                        <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${statusDot} inline-block shrink-0"></span>
+                                        <p class="text-[10px] sm:text-[11px] ${statusTextColor} font-semibold tracking-wide truncate">${statusText}</p>
                                     </div>
                                 </div>
                             </div>
@@ -727,9 +745,9 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" onclick="copyToClipboard('${escapeHtml(acc.account_number)}')" class="w-full bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-2.5 sm:py-3 rounded-full font-bold text-xs transition-all flex items-center justify-center space-x-2 shadow-xl shadow-[#730c1e]/40 border border-white/30 active:scale-95 cursor-pointer">
-                            <i class="fa-regular fa-copy"></i>
-                            <span>คัดลอกเลขที่บัญชี</span>
+                        <button type="button" ${btnAction} class="w-full py-2.5 sm:py-3 rounded-full font-bold text-xs transition-all flex items-center justify-center space-x-2 border border-white/30 ${btnStyle}">
+                            ${btnIcon}
+                            <span>${btnText}</span>
                         </button>
                     </div>`;
                 }).join('');
@@ -742,12 +760,18 @@
             } else {
                 adminBankList.innerHTML = appData.accounts.map(acc => {
                     const adminIconHtml = acc.icon ? `<img src="${escapeHtml(acc.icon)}" alt="" class="w-full h-full object-cover">` : '<i class="fa-solid fa-building-columns text-xs"></i>';
+                    const adminStatusBadge = (acc.is_active !== false) 
+                        ? '<span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-500/30 ml-2">เปิดรับโอน</span>'
+                        : '<span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded border border-rose-500/30 ml-2">ปิดใช้งาน</span>';
                     return `
                     <div class="flex items-center justify-between p-3 sm:p-3.5 bg-[#140f17] rounded-2xl border border-white/20 shadow-sm gap-2">
                         <div class="flex items-center space-x-2.5 min-w-0 flex-1">
                             <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#210207] flex items-center justify-center overflow-hidden border border-white/30 shrink-0 text-white shadow">${adminIconHtml}</div>
                             <div class="min-w-0 flex-1">
-                                <p class="font-bold text-xs text-white truncate">${escapeHtml(acc.bank_name)}</p>
+                                <div class="flex items-center">
+                                    <p class="font-bold text-xs text-white truncate">${escapeHtml(acc.bank_name)}</p>
+                                    ${adminStatusBadge}
+                                </div>
                                 <p class="text-[10px] sm:text-[11px] text-rose-200/80 font-mono truncate">${escapeHtml(acc.account_number)} (${escapeHtml(acc.account_name)})</p>
                             </div>
                         </div>
@@ -1025,6 +1049,7 @@
             document.getElementById('bankName').value = "";
             document.getElementById('accountName').value = "";
             document.getElementById('accountNumber').value = "";
+            document.getElementById('accountStatus').checked = true;
             document.getElementById('bankIconInput').value = "";
             tempBankIconBase64 = "";
             deleteBankIconFlag = false;
@@ -1041,6 +1066,7 @@
             document.getElementById('bankName').value = acc.bank_name;
             document.getElementById('accountName').value = acc.account_name;
             document.getElementById('accountNumber').value = acc.account_number;
+            document.getElementById('accountStatus').checked = acc.is_active !== false;
             document.getElementById('bankIconInput').value = "";
             tempBankIconBase64 = acc.icon || "";
             deleteBankIconFlag = false;
@@ -1067,7 +1093,8 @@
             const payload = {
                 bank_name: document.getElementById('bankName').value.trim(),
                 account_name: document.getElementById('accountName').value.trim(),
-                account_number: document.getElementById('accountNumber').value.trim()
+                account_number: document.getElementById('accountNumber').value.trim(),
+                is_active: document.getElementById('accountStatus').checked
             };
 
             if (tempBankIconBase64) {
