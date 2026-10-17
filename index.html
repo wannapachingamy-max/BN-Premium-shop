@@ -211,7 +211,7 @@
         </div>
 
         <!-- QR Code Section -->
-        <div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 md:p-8 shadow-2xl border-2 border-white/20 relative overflow-hidden card-hover">
+        <div id="qrCodeSection" class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 md:p-8 shadow-2xl border-2 border-white/20 relative overflow-hidden card-hover">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 sm:mb-6">
                 <div class="flex items-center space-x-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#730c1e] text-white flex items-center justify-center shadow-md border border-white/30 shrink-0">
@@ -288,8 +288,8 @@
                 <div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#480415] text-rose-300 rounded-full flex items-center justify-center text-xl sm:text-2xl mx-auto mb-3 shadow-inner border border-white/30">
                     <i class="fa-solid fa-wallet"></i>
                 </div>
-                <p class="text-white font-bold text-sm sm:text-base">ยังไม่มีข้อมูลบัญชีธนาคาร</p>
-                <p class="text-rose-200/80 text-xs mt-1">กรุณาเข้าสู่ระบบแอดมินเพื่อเพิ่มบัญชีธนาคาร</p>
+                <p class="text-white font-bold text-sm sm:text-base">ยังไม่มีข้อมูลช่องทางรับเงินที่เปิดใช้งาน</p>
+                <p class="text-rose-200/80 text-xs mt-1">กรุณาเข้าสู่ระบบแอดมินเพื่อเพิ่มบัญชีหรือเปิดสถานะ</p>
             </div>
         </div>
 
@@ -379,26 +379,26 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <!-- Logo Upload Box -->
                         <div class="p-3.5 sm:p-4 bg-[#140f17] rounded-[1.5rem] sm:rounded-[1.8rem] border border-white/20 flex flex-col items-center justify-center shadow-inner relative">
-                            <button type="button" onclick="removeLogo()" class="absolute top-2 right-2 w-7 h-7 bg-rose-600/80 hover:bg-rose-500 text-white rounded-full flex items-center justify-center text-xs transition shadow-md border border-white/20 cursor-pointer" title="ลบรูปภาพ">
+                            <button type="button" onclick="removeLogo()" class="absolute top-2 right-2 w-7 h-7 bg-rose-600/80 hover:bg-rose-500 text-white rounded-full flex items-center justify-center text-xs transition shadow-md border border-white/20 cursor-pointer z-10" title="ลบรูปภาพ">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <div id="previewLogoContainer" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#730c1e] to-[#480415] text-white flex items-center justify-center text-xl sm:text-2xl mb-2 overflow-hidden shadow-md border-2 border-white/30">
                                 <i class="fa-solid fa-crown"></i>
                             </div>
                             <span class="text-[11px] text-rose-200 font-medium mb-2">โลโก้ปัจจุบัน</span>
-                            <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
+                            <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition relative z-20">
                         </div>
 
                         <!-- QR Code Upload Box -->
                         <div class="p-3.5 sm:p-4 bg-[#140f17] rounded-[1.5rem] sm:rounded-[1.8rem] border border-white/20 flex flex-col items-center justify-center shadow-inner relative">
-                            <button type="button" onclick="removeQR()" class="absolute top-2 right-2 w-7 h-7 bg-rose-600/80 hover:bg-rose-500 text-white rounded-full flex items-center justify-center text-xs transition shadow-md border border-white/20 cursor-pointer" title="ลบรูปภาพ">
+                            <button type="button" onclick="removeQR()" class="absolute top-2 right-2 w-7 h-7 bg-rose-600/80 hover:bg-rose-500 text-white rounded-full flex items-center justify-center text-xs transition shadow-md border border-white/20 cursor-pointer z-10" title="ลบรูปภาพ">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <div id="previewQRContainer" class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white text-slate-700 flex items-center justify-center text-xl sm:text-2xl mb-2 overflow-hidden shadow-md border-2 border-white/30">
                                 <i class="fa-solid fa-qrcode"></i>
                             </div>
                             <span class="text-[11px] text-rose-200 font-medium mb-2">รูป QR Code ปัจจุบัน</span>
-                            <input type="file" id="qrFileInput" accept="image/*" onchange="handleQRUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
+                            <input type="file" id="qrFileInput" accept="image/*" onchange="handleQRUpload(event)" class="w-full text-[11px] sm:text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] sm:file:text-[11px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition relative z-20">
                         </div>
                     </div>
 
@@ -413,9 +413,18 @@
                             <input type="text" id="settingQRSub" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white font-mono" placeholder="081-234-5678">
                         </div>
                     </div>
+                    
+                    <!-- Toggle QR Code Display -->
+                    <div class="pt-1">
+                        <label class="block text-xs font-semibold text-rose-200 mb-1">สถานะ QR Code บนหน้าเว็บ</label>
+                        <label class="flex items-center space-x-2 bg-[#140f17] border border-white/25 px-4 py-2.5 rounded-full cursor-pointer hover:bg-white/5 transition w-full sm:w-max">
+                            <input type="checkbox" id="settingQrActive" class="w-4 h-4 text-[#730c1e] bg-[#210207] border-white/30 rounded focus:ring-rose-500 focus:ring-2 cursor-pointer">
+                            <span class="text-xs text-white font-medium">เปิดแสดง QR Code ให้ลูกค้าสแกนจ่าย</span>
+                        </label>
+                    </div>
 
                     <!-- Social Contacts -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                         <div>
                             <label class="block text-xs font-semibold text-rose-200 mb-1">ลิงก์ Facebook เพจ/กลุ่ม</label>
                             <input type="url" id="settingFacebook" class="w-full px-3.5 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white" placeholder="https://facebook.com/yourpage">
@@ -426,7 +435,7 @@
                         </div>
                     </div>
 
-                    <div class="pt-1">
+                    <div class="pt-2">
                         <button type="button" id="saveSettingsBtn" onclick="saveGeneralSettings(event)" class="w-full sm:w-auto bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white px-6 py-2.5 rounded-full text-xs font-bold transition-all shadow-lg border border-white/30 active:scale-95 cursor-pointer">
                             บันทึกการตั้งค่าทั่วไป & QR Code
                         </button>
@@ -488,10 +497,10 @@
                     <input type="text" id="accountNumber" required class="w-full px-4 py-2.5 rounded-full bg-[#140f17] border border-white/25 text-white text-xs focus:outline-none focus:border-white font-mono" placeholder="เช่น 123-4-56789-0">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-rose-200 mb-1">สถานะการใช้งาน</label>
+                    <label class="block text-xs font-semibold text-rose-200 mb-1">สถานะการแสดงผล</label>
                     <label class="flex items-center space-x-2 bg-[#140f17] border border-white/25 px-4 py-2.5 rounded-full cursor-pointer hover:bg-white/5 transition">
-                        <input type="checkbox" id="accountStatus" class="w-4 h-4 text-[#730c1e] bg-[#210207] border-white/30 rounded focus:ring-rose-500 focus:ring-2">
-                        <span class="text-xs text-white font-medium">เปิดใช้งาน (รับโอนปกติ)</span>
+                        <input type="checkbox" id="accountStatus" class="w-4 h-4 text-[#730c1e] bg-[#210207] border-white/30 rounded focus:ring-rose-500 focus:ring-2 cursor-pointer">
+                        <span class="text-xs text-white font-medium">เปิดใช้งาน (แสดงบนหน้าเว็บ)</span>
                     </label>
                 </div>
                 <div>
@@ -504,7 +513,7 @@
                             <input type="file" id="bankIconInput" accept="image/*" onchange="handleBankIconUpload(event)" class="w-full text-xs text-rose-200 file:mr-2 file:py-1 file:px-2.5 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-[#730c1e] file:text-white hover:file:bg-white hover:file:text-[#210207] cursor-pointer transition">
                             <button type="button" onclick="removeBankIcon()" class="self-start text-[10px] bg-rose-950 hover:bg-rose-900 text-rose-300 px-2.5 py-1 rounded-full border border-rose-800 transition flex items-center space-x-1 cursor-pointer">
                                 <i class="fa-solid fa-trash-can"></i>
-                                <span>ลบรูป</span>
+                                <span>ลบรูป/ลบไอคอน</span>
                             </button>
                         </div>
                     </div>
@@ -545,12 +554,8 @@
         const SUPABASE_URL = "https://spbxjshtnnmawxrcdhwg.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwYnhqc2h0bm5tYXd4cmNkaHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1MjI0NDYsImV4cCI6MjEwNzA5ODQ0Nn0.E7QjinQNaRI_SpeLiaocZvABVut0GWT0dk4ApT2eh_A";
         
-        let supabaseClient;
-        try {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        } catch (error) {
-            console.error("Failed to initialize Supabase. Check CDN connection.", error);
-        }
+        const { createClient } = window.supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Application State Data
         let appData = {
@@ -561,6 +566,7 @@
             qrSub: "081-234-5678",
             facebook: "https://facebook.com",
             line: "https://line.me",
+            isQrActive: true,
             accounts: []
         };
 
@@ -632,6 +638,8 @@
                     appData.qrSub = settingsData.qr_sub || "081-234-5678";
                     appData.facebook = settingsData.facebook || "https://facebook.com";
                     appData.line = settingsData.line || "https://line.me";
+                    // ดึงค่าสถานะ QR ถ้าไม่มีให้ถือว่าเป็นเปิดใช้งาน (true)
+                    appData.isQrActive = settingsData.is_qr_active !== false;
                 }
 
                 // Fetch bank accounts
@@ -672,18 +680,17 @@
                 previewLogoContainer.innerHTML = '<i class="fa-solid fa-crown text-white text-lg"></i>';
             }
 
-            // Render QR Code Section
-            const qrImageWrapper = document.getElementById('qrImageWrapper');
-            const previewQRContainer = document.getElementById('previewQRContainer');
-            
+            // Render QR Code Settings
             document.getElementById('qrTitle').textContent = appData.qrTitle;
             document.getElementById('qrSubTitle').textContent = appData.qrSub;
-            
             document.getElementById('settingQRTitle').value = appData.qrTitle;
             document.getElementById('settingQRSub').value = appData.qrSub;
             document.getElementById('settingFacebook').value = appData.facebook;
             document.getElementById('settingLine').value = appData.line;
+            document.getElementById('settingQrActive').checked = appData.isQrActive;
 
+            const qrImageWrapper = document.getElementById('qrImageWrapper');
+            const previewQRContainer = document.getElementById('previewQRContainer');
             if (appData.qrCode) {
                 qrImageWrapper.innerHTML = `<img id="actualQrImg" src="${escapeHtml(appData.qrCode)}" alt="QR Code" class="w-full h-full object-contain rounded-2xl">`;
                 previewQRContainer.innerHTML = `<img src="${escapeHtml(appData.qrCode)}" alt="QR" class="w-full h-full object-cover">`;
@@ -692,45 +699,47 @@
                 previewQRContainer.innerHTML = '<i class="fa-solid fa-qrcode text-slate-700"></i>';
             }
 
+            // แสดง/ซ่อน QR Code จากหน้าเว็บตามการตั้งค่า (เฉพาะด้านลูกค้า)
+            // ถ้าปิดการใช้งาน จะถูกซ่อน (display: none ผ่านคลาส hidden) ออกจากหน้าเว็บ 100% เลยครับ
+            const qrSection = document.getElementById('qrCodeSection');
+            if (appData.isQrActive) {
+                qrSection.classList.remove('hidden');
+            } else {
+                qrSection.classList.add('hidden');
+            }
+
             // Social Links
             document.getElementById('facebookLink').href = escapeHtml(appData.facebook);
             document.getElementById('lineLink').href = escapeHtml(appData.line);
 
-            // Render Bank Accounts
+            // Render Bank Accounts (ฝั่งลูกค้า: แสดงเฉพาะบัญชีที่เปิดใช้งานอยู่เท่านั้น)
             const grid = document.getElementById('bankAccountsGrid');
             const emptyState = document.getElementById('emptyState');
-            document.getElementById('accountCountBadge').textContent = appData.accounts.length + " บัญชี";
+            
+            // กรองมาเฉพาะบัญชีที่เปิดอยู่
+            const publicAccounts = appData.accounts.filter(acc => acc.is_active !== false);
+            
+            document.getElementById('accountCountBadge').textContent = publicAccounts.length + " บัญชี";
 
-            if (appData.accounts.length === 0) {
+            if (publicAccounts.length === 0) {
                 grid.innerHTML = "";
                 grid.classList.add('hidden');
                 emptyState.classList.remove('hidden');
             } else {
                 emptyState.classList.add('hidden');
                 grid.classList.remove('hidden');
-                grid.innerHTML = appData.accounts.map(acc => {
-                    // กำหนดสถานะและสีต่างๆ ตาม is_active
-                    const isActive = acc.is_active !== false; // ถ้าไม่มีค่าให้ถือว่าเปิดใช้
-                    const statusDot = isActive ? 'bg-emerald-400 status-dot' : 'bg-rose-500';
-                    const statusText = isActive ? 'บัญชีพร้อมใช้งาน' : 'งดใช้งานชั่วคราว';
-                    const statusTextColor = isActive ? 'text-emerald-300' : 'text-rose-300';
-                    const cardOpacity = isActive ? '' : 'opacity-80 grayscale-[0.4]';
-                    const btnStyle = isActive ? 'bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white active:scale-95 shadow-xl shadow-[#730c1e]/40 cursor-pointer' : 'bg-gray-800/80 text-gray-400 cursor-not-allowed border-gray-600/50';
-                    const btnAction = isActive ? `onclick="copyToClipboard('${escapeHtml(acc.account_number)}')"` : 'disabled';
-                    const btnIcon = isActive ? '<i class="fa-regular fa-copy"></i>' : '<i class="fa-solid fa-ban"></i>';
-                    const btnText = isActive ? 'คัดลอกเลขที่บัญชี' : 'งดทำรายการชั่วคราว';
-
+                grid.innerHTML = publicAccounts.map(acc => {
                     const iconHtml = acc.icon ? `<img src="${escapeHtml(acc.icon)}" alt="${escapeHtml(acc.bank_name)}" class="w-full h-full object-cover">` : '<i class="fa-solid fa-building-columns"></i>';
                     return `
-                    <div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 shadow-xl card-hover border-2 border-white/20 flex flex-col justify-between ${cardOpacity}">
+                    <div class="bg-[#210207]/90 backdrop-blur-md rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 shadow-xl card-hover border-2 border-white/20 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center space-x-3 mb-4">
                                 <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#140f17] text-white flex items-center justify-center text-base sm:text-lg overflow-hidden border-2 border-white/30 shrink-0 shadow-md">${iconHtml}</div>
                                 <div class="min-w-0 flex-1">
                                     <h4 class="font-extrabold text-white text-sm sm:text-base truncate">${escapeHtml(acc.bank_name)}</h4>
                                     <div class="flex items-center space-x-1.5">
-                                        <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${statusDot} inline-block shrink-0"></span>
-                                        <p class="text-[10px] sm:text-[11px] ${statusTextColor} font-semibold tracking-wide truncate">${statusText}</p>
+                                        <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 status-dot inline-block shrink-0"></span>
+                                        <p class="text-[10px] sm:text-[11px] text-emerald-300 font-semibold tracking-wide truncate">เปิดรับโอนปกติ</p>
                                     </div>
                                 </div>
                             </div>
@@ -745,24 +754,26 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" ${btnAction} class="w-full py-2.5 sm:py-3 rounded-full font-bold text-xs transition-all flex items-center justify-center space-x-2 border border-white/30 ${btnStyle}">
-                            ${btnIcon}
-                            <span>${btnText}</span>
+                        <button type="button" onclick="copyToClipboard('${escapeHtml(acc.account_number)}')" class="w-full bg-[#730c1e] hover:bg-white hover:text-[#210207] text-white py-2.5 sm:py-3 rounded-full font-bold text-xs transition-all flex items-center justify-center space-x-2 shadow-xl shadow-[#730c1e]/40 border border-white/30 active:scale-95 cursor-pointer">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>คัดลอกเลขที่บัญชี</span>
                         </button>
                     </div>`;
                 }).join('');
             }
 
-            // Render Admin Bank List
+            // Render Admin Bank List (ฝั่งแอดมิน: แสดงทุกบัญชีเพื่อที่จะได้สามารถเปิด-ปิดได้)
             const adminBankList = document.getElementById('adminBankList');
             if (appData.accounts.length === 0) {
                 adminBankList.innerHTML = '<p class="text-xs text-rose-200 text-center py-4">ไม่มีรายการบัญชีธนาคาร</p>';
             } else {
                 adminBankList.innerHTML = appData.accounts.map(acc => {
                     const adminIconHtml = acc.icon ? `<img src="${escapeHtml(acc.icon)}" alt="" class="w-full h-full object-cover">` : '<i class="fa-solid fa-building-columns text-xs"></i>';
+                    // ป้ายบอกสถานะ
                     const adminStatusBadge = (acc.is_active !== false) 
-                        ? '<span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-500/30 ml-2">เปิดรับโอน</span>'
-                        : '<span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded border border-rose-500/30 ml-2">ปิดใช้งาน</span>';
+                        ? '<span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-500/30 ml-2 whitespace-nowrap shrink-0">เปิดแสดงผล</span>'
+                        : '<span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded border border-rose-500/30 ml-2 whitespace-nowrap shrink-0">ซ่อนบัญชีนี้</span>';
+                        
                     return `
                     <div class="flex items-center justify-between p-3 sm:p-3.5 bg-[#140f17] rounded-2xl border border-white/20 shadow-sm gap-2">
                         <div class="flex items-center space-x-2.5 min-w-0 flex-1">
@@ -776,10 +787,10 @@
                             </div>
                         </div>
                         <div class="flex items-center space-x-1 shrink-0">
-                            <button type="button" onclick="openEditAccountModal('${acc.id}')" class="p-2 text-rose-200 hover:text-[#210207] hover:bg-white rounded-full text-xs transition shadow cursor-pointer" title="แก้ไข">
+                            <button type="button" onclick="openEditAccountModal('${acc.id}')" class="p-2 text-rose-200 hover:text-[#210207] hover:bg-white rounded-full text-xs transition shadow cursor-pointer" title="แก้ไข/ตั้งค่าเปิด-ปิด">
                                 <i class="fa-solid fa-pen"></i>
                             </button>
-                            <button type="button" onclick="confirmDeleteAccount('${acc.id}')" class="p-2 text-rose-300 hover:text-white hover:bg-[#730c1e] rounded-full text-xs transition shadow cursor-pointer" title="ลบ">
+                            <button type="button" onclick="confirmDeleteAccount('${acc.id}')" class="p-2 text-rose-300 hover:text-white hover:bg-[#730c1e] rounded-full text-xs transition shadow cursor-pointer" title="ลบอย่างถาวร">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
@@ -922,7 +933,6 @@
             let user = document.getElementById('adminUser').value.trim();
             const pass = document.getElementById('adminPass').value.trim();
 
-            // Automatically format standard username to valid email if '@' is missing
             if (user && !user.includes('@')) {
                 user = user + "@bnpremium.com"; 
             }
@@ -1004,7 +1014,8 @@
                     qr_title: document.getElementById('settingQRTitle').value.trim() || "พร้อมเพย์ BN Premium",
                     qr_sub: document.getElementById('settingQRSub').value.trim() || "",
                     facebook: document.getElementById('settingFacebook').value.trim(),
-                    line: document.getElementById('settingLine').value.trim()
+                    line: document.getElementById('settingLine').value.trim(),
+                    is_qr_active: document.getElementById('settingQrActive').checked
                 };
 
                 if (tempLogoBase64) {
@@ -1049,7 +1060,7 @@
             document.getElementById('bankName').value = "";
             document.getElementById('accountName').value = "";
             document.getElementById('accountNumber').value = "";
-            document.getElementById('accountStatus').checked = true;
+            document.getElementById('accountStatus').checked = true; // เปิดใช้งานโดยเริ่มต้น
             document.getElementById('bankIconInput').value = "";
             tempBankIconBase64 = "";
             deleteBankIconFlag = false;
@@ -1061,12 +1072,12 @@
             const acc = appData.accounts.find(a => a.id === id);
             if (!acc) return;
 
-            document.getElementById('accountModalTitle').textContent = "แก้ไขบัญชีธนาคาร";
+            document.getElementById('accountModalTitle').textContent = "แก้ไข/ตั้งค่าบัญชี";
             document.getElementById('editAccountId').value = acc.id;
             document.getElementById('bankName').value = acc.bank_name;
             document.getElementById('accountName').value = acc.account_name;
             document.getElementById('accountNumber').value = acc.account_number;
-            document.getElementById('accountStatus').checked = acc.is_active !== false;
+            document.getElementById('accountStatus').checked = acc.is_active !== false; // เช็คสถานะปัจจุบัน
             document.getElementById('bankIconInput').value = "";
             tempBankIconBase64 = acc.icon || "";
             deleteBankIconFlag = false;
@@ -1094,7 +1105,7 @@
                 bank_name: document.getElementById('bankName').value.trim(),
                 account_name: document.getElementById('accountName').value.trim(),
                 account_number: document.getElementById('accountNumber').value.trim(),
-                is_active: document.getElementById('accountStatus').checked
+                is_active: document.getElementById('accountStatus').checked // เซฟสถานะการเปิดใช้งาน
             };
 
             if (tempBankIconBase64) {
@@ -1113,7 +1124,7 @@
                 }
                 closeAccountModal();
                 showToast("บันทึกข้อมูลบัญชีสำเร็จ!");
-                await loadSupabaseData();
+                await loadSupabaseData(); // โหลดหน้าใหม่
             } catch (err) {
                 console.error("Error saving account:", err);
                 showToast("เกิดข้อผิดพลาด: " + (err.message || "ไม่มีสิทธิ์ทำรายการ"), true);
@@ -1215,8 +1226,8 @@
         function escapeHtml(str) {
             return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         }
-        
-        // Expose functions globally for HTML event listeners
+
+        // Expose functions globally
         window.loadSupabaseData = loadSupabaseData;
         window.handleLogoUpload = handleLogoUpload;
         window.handleQRUpload = handleQRUpload;
